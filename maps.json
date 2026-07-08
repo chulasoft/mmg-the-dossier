@@ -1,0 +1,2015 @@
+[
+  {
+    "id": "map_00",
+    "index": 0,
+    "players": 3,
+    "factions": [
+      "ashen",
+      "cogwork",
+      "crown"
+    ],
+    "clueTier": "easy",
+    "result": "vague",
+    "fairness": 95,
+    "avgPct": 43,
+    "board": [
+      {
+        "col": 0,
+        "row": 0,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 0,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 0,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 0,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 4,
+        "row": 0,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 0,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 0,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 0,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 0,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 0,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 0,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 0,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 0,
+        "terrain": "slums",
+        "features": [
+          "power_plant"
+        ],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 1,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 1,
+        "terrain": "smog",
+        "features": [
+          "clock_tower"
+        ],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 1,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 3,
+        "row": 1,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 4,
+        "row": 1,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 5,
+        "row": 1,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 6,
+        "row": 1,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 1,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 1,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 1,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 1,
+        "terrain": "slums",
+        "features": [
+          "power_plant"
+        ],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 1,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 1,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 2,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 2,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 2,
+        "row": 2,
+        "terrain": "smog",
+        "features": [
+          "station"
+        ],
+        "rail": true
+      },
+      {
+        "col": 3,
+        "row": 2,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 5,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 7,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [
+          "station"
+        ],
+        "rail": true
+      },
+      {
+        "col": 8,
+        "row": 2,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 9,
+        "row": 2,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 10,
+        "row": 2,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 11,
+        "row": 2,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 2,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 3,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 1,
+        "row": 3,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 3,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [
+          "power_plant"
+        ],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 8,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 3,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 11,
+        "row": 3,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 3,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 4,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 4,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 4,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 12,
+        "row": 4,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 0,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 5,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 5,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 5,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 6,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 6,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 6,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 6,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 6,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 6,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 6,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 6,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 6,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 6,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 6,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 6,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 6,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 7,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 7,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 7,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 7,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 7,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 7,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 7,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 7,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 7,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 7,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 7,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 7,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 7,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 8,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 8,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 8,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 9,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      }
+    ],
+    "answerCell": {
+      "col": 8,
+      "row": 6
+    },
+    "clues": [
+      {
+        "code": "AS-10",
+        "faction": "ashen",
+        "tier": "easy",
+        "type": "on_terrain_or",
+        "label": "ซ่อนในสลัมร้างหรือท่าเรือ",
+        "tplKey": "as_pair",
+        "params": {
+          "terrains": [
+            "slums",
+            "harbor"
+          ]
+        },
+        "meta": {
+          "support": 54,
+          "contribution": 12
+        }
+      },
+      {
+        "code": "CW-01",
+        "faction": "cogwork",
+        "tier": "easy",
+        "type": "within_feat",
+        "label": "ภายใน 3 ช่องจากโรงไฟฟ้า ⚡",
+        "tplKey": "cw_power",
+        "params": {
+          "feat": "power_plant",
+          "dist": 3
+        },
+        "meta": {
+          "support": 54,
+          "contribution": 29
+        }
+      },
+      {
+        "code": "CR-05",
+        "faction": "crown",
+        "tier": "easy",
+        "type": "within_terrain",
+        "label": "แฟ้มท่าเรือ ภายใน 2 ช่องจากท่าเรือ 🌊",
+        "tplKey": "cr_harbor",
+        "params": {
+          "dist": 2,
+          "terrain": "harbor"
+        },
+        "meta": {
+          "support": 60,
+          "contribution": 23
+        }
+      }
+    ]
+  },
+  {
+    "id": "map_01",
+    "index": 1,
+    "players": 4,
+    "factions": [
+      "cogwork",
+      "seance",
+      "lamplight",
+      "ashen"
+    ],
+    "clueTier": "easy",
+    "result": "vague",
+    "fairness": 71,
+    "avgPct": 42,
+    "board": [
+      {
+        "col": 0,
+        "row": 0,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 0,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 0,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 0,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 0,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 0,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 0,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 0,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 0,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 0,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 0,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 0,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 0,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 1,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 1,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 1,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 1,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 1,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 1,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 1,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 1,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 1,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 1,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 1,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 1,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 1,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 2,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 2,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 2,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 2,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 2,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 2,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 2,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 2,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [
+          "power_plant"
+        ],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 2,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 3,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 3,
+        "terrain": "smog",
+        "features": [
+          "clock_tower"
+        ],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 3,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 3,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 3,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 3,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 3,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 3,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 3,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 3,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 4,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 4,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 4,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 4,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 4,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 4,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 4,
+        "terrain": "harbor",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 4,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 4,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 4,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 5,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 5,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 5,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 5,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 5,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 5,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 5,
+        "terrain": "cemetery",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 6,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 6,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 6,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 6,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 6,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 5,
+        "row": 6,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 6,
+        "row": 6,
+        "terrain": "slums",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 7,
+        "row": 6,
+        "terrain": "slums",
+        "features": [
+          "power_plant"
+        ],
+        "rail": true
+      },
+      {
+        "col": 8,
+        "row": 6,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 6,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 6,
+        "terrain": "factory",
+        "features": [
+          "station"
+        ],
+        "rail": true
+      },
+      {
+        "col": 11,
+        "row": 6,
+        "terrain": "cemetery",
+        "features": [
+          "station"
+        ],
+        "rail": true
+      },
+      {
+        "col": 12,
+        "row": 6,
+        "terrain": "factory",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 0,
+        "row": 7,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 1,
+        "row": 7,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 2,
+        "row": 7,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 3,
+        "row": 7,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 4,
+        "row": 7,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 7,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 7,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 7,
+        "terrain": "slums",
+        "features": [
+          "power_plant"
+        ],
+        "rail": true
+      },
+      {
+        "col": 8,
+        "row": 7,
+        "terrain": "slums",
+        "features": [
+          "station"
+        ],
+        "rail": true
+      },
+      {
+        "col": 9,
+        "row": 7,
+        "terrain": "factory",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 10,
+        "row": 7,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 7,
+        "terrain": "factory",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 12,
+        "row": 7,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 8,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 8,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 8,
+        "terrain": "smog",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 3,
+        "row": 8,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 8,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 8,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 8,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 8,
+        "terrain": "slums",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 8,
+        "terrain": "factory",
+        "features": [],
+        "rail": true
+      },
+      {
+        "col": 9,
+        "row": 8,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 8,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 8,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 8,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 0,
+        "row": 9,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 1,
+        "row": 9,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 2,
+        "row": 9,
+        "terrain": "smog",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 3,
+        "row": 9,
+        "terrain": "smog",
+        "features": [
+          "power_plant"
+        ],
+        "rail": false
+      },
+      {
+        "col": 4,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 5,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 6,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 7,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 8,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 9,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 10,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 11,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      },
+      {
+        "col": 12,
+        "row": 9,
+        "terrain": "factory",
+        "features": [],
+        "rail": false
+      }
+    ],
+    "answerCell": {
+      "col": 11,
+      "row": 5
+    },
+    "clues": [
+      {
+        "code": "CW-01",
+        "faction": "cogwork",
+        "tier": "easy",
+        "type": "within_feat",
+        "label": "ภายใน 3 ช่องจากโรงไฟฟ้า ⚡",
+        "tplKey": "cw_power",
+        "params": {
+          "feat": "power_plant",
+          "dist": 3
+        },
+        "meta": {
+          "support": 78,
+          "contribution": 1
+        }
+      },
+      {
+        "code": "SE-07",
+        "faction": "seance",
+        "tier": "easy",
+        "type": "within_terrain",
+        "label": "เสียงครวญคราง ภายใน 1 ช่องจากสลัมร้าง 🏚",
+        "tplKey": "se_slums",
+        "params": {
+          "dist": 1,
+          "terrain": "slums"
+        },
+        "meta": {
+          "support": 54,
+          "contribution": 7
+        }
+      },
+      {
+        "code": "LA-02",
+        "faction": "lamplight",
+        "tier": "easy",
+        "type": "within_feat_or",
+        "label": "เครือข่ายข่าว ภายใน 1 ช่องจากสิ่งปลูกสร้างใดๆ 🕰🚉⚡",
+        "tplKey": "la_allstruct",
+        "params": {
+          "feats": [
+            "clock_tower",
+            "station",
+            "power_plant"
+          ],
+          "dist": 1
+        },
+        "meta": {
+          "support": 40,
+          "contribution": 9
+        }
+      },
+      {
+        "code": "AS-08",
+        "faction": "ashen",
+        "tier": "easy",
+        "type": "on_terrain_or",
+        "label": "ซ่อนในสุสานเก่าหรือท่าเรือ",
+        "tplKey": "as_pair",
+        "params": {
+          "terrains": [
+            "cemetery",
+            "harbor"
+          ]
+        },
+        "meta": {
+          "support": 44,
+          "contribution": 20
+        }
+      }
+    ]
+  }
+]
