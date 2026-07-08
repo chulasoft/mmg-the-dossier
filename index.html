@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Dossier</title>
+<script src="./i18n.js"></script>
+<style>
+  :root{
+    --paper:#e9e1cd; --paper2:#e2d8bf; --ink:#241c12; --ink2:#5a4c38; --ink3:#8a7a62;
+    --rule:#c4b596; --red:#9a2a1e; --sepia:#8a6a3a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{min-height:100dvh;font-family:Georgia,'Times New Roman',serif;color:var(--ink);}
+  body{
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(120,90,50,0.012) 3px, rgba(120,90,50,0.012) 4px),
+      radial-gradient(ellipse 90% 60% at 50% 0%, #efe8d6, #e4dabf);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:24px;min-height:100dvh;
+  }
+  .wrap{max-width:600px;width:100%;text-align:center;animation:fadeUp 0.7s ease both;}
+  .kicker{font-size:0.7rem;letter-spacing:0.4em;color:var(--red);text-transform:uppercase;margin-bottom:10px;font-weight:700;}
+  .title{
+    font-size:clamp(2.6rem,9vw,4.2rem);font-weight:900;line-height:0.95;letter-spacing:-0.02em;
+    text-shadow:0 2px 0 rgba(255,255,255,0.4);margin-bottom:6px;
+  }
+  .rule{display:flex;align-items:center;gap:14px;margin:14px 0 6px;}
+  .rule:before,.rule:after{content:"";flex:1;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);}
+  .rule span{font-size:0.66rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;}
+  .sub{font-size:0.86rem;color:var(--ink2);font-style:italic;line-height:1.7;margin:18px auto 34px;max-width:440px;}
+  .choices{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;}
+  .choice{
+    flex:1;min-width:200px;max-width:260px;
+    background:var(--paper2);border:1px solid var(--ink);border-top:4px solid var(--ink);
+    padding:28px 22px;cursor:pointer;text-decoration:none;color:var(--ink);
+    box-shadow:3px 3px 0 rgba(36,28,18,0.16);transition:all 0.2s;display:block;
+  }
+  .choice:hover{transform:translateY(-4px);box-shadow:5px 7px 0 rgba(36,28,18,0.22);}
+  .choice.host{border-top-color:var(--red);}
+  .choice.companion{border-top-color:var(--sepia);}
+  .choice-icon{font-size:2.6rem;margin-bottom:12px;}
+  .choice-title{font-size:1.3rem;font-weight:800;margin-bottom:7px;}
+  .choice.host .choice-title{color:var(--red);}
+  .choice.companion .choice-title{color:var(--sepia);}
+  .choice-desc{font-size:0.74rem;color:var(--ink2);line-height:1.6;}
+  .choice-tag{display:inline-block;margin-top:12px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);border:1px solid var(--rule);border-radius:2px;padding:2px 9px;}
+  .footer{margin-top:40px;font-size:0.66rem;color:var(--ink3);font-style:italic;display:flex;flex-direction:column;align-items:center;gap:12px;}
+  .lab-link{font-size:0.64rem;color:var(--ink3);text-decoration:none;border:1px dashed var(--rule);border-radius:3px;padding:5px 14px;font-style:normal;transition:all 0.16s;}
+  .lab-link:hover{color:var(--ink);border-color:var(--ink2);background:var(--paper2);}
+  .gear{display:inline-block;animation:spin 14s linear infinite;}
+  .lang-toggle{position:fixed;top:14px;right:14px;z-index:20;min-width:40px;height:36px;padding:0 10px;border-radius:18px;
+    border:1px solid var(--ink2);background:var(--paper2);color:var(--ink);font-size:0.7rem;font-weight:800;letter-spacing:0.03em;
+    cursor:pointer;box-shadow:2px 2px 0 rgba(36,28,18,0.16);display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;transition:all .16s;}
+  .lang-toggle:hover{transform:translateY(-2px);box-shadow:3px 4px 0 rgba(36,28,18,0.22);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+  <button id="langToggle" class="lang-toggle" title="Language">TH</button>
+  <div class="wrap">
+    <div class="kicker" data-i18n="selKicker"></div>
+    <h1 class="title">The Dossier</h1>
+    <div class="rule"><span data-i18n="idxRule"></span></div>
+    <p class="sub" id="idxSub"></p>
+    <div class="choices">
+      <a class="choice host" href="./host.html">
+        <div class="choice-icon">🗺️</div>
+        <div class="choice-title" data-i18n="idxHostTitle2"></div>
+        <div class="choice-desc" data-i18n="idxHostDesc"></div>
+        <div class="choice-tag" data-i18n="idxHostTag"></div>
+      </a>
+      <a class="choice companion" href="./companion.html">
+        <div class="choice-icon">📓</div>
+        <div class="choice-title" data-i18n="idxCompanionTitle2"></div>
+        <div class="choice-desc" data-i18n="idxCompanionDesc"></div>
+        <div class="choice-tag" data-i18n="idxCompanionTag"></div>
+      </a>
+    </div>
+    <div class="footer">
+      <div><span class="gear">⚙</span> &nbsp;<span data-i18n="idxFooterText"></span>&nbsp; <span class="gear">⚙</span></div>
+      <a class="lab-link" href="./lab.html" data-i18n="idxLabLink"></a>
+    </div>
+  </div>
+
+<script>
+function applyStaticI18N() {
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = I18N.t(el.dataset.i18n); });
+  document.getElementById("idxSub").innerHTML = I18N.t("idxSubLine").split("|").join("<br/>");
+  document.documentElement.lang = I18N.getLang();
+  document.getElementById("langToggle").textContent = I18N.getLang() === "en" ? "TH" : "EN";
+}
+document.getElementById("langToggle").onclick = () => {
+  I18N.setLang(I18N.getLang() === "en" ? "th" : "en");
+  applyStaticI18N();
+};
+applyStaticI18N();
+</script>
+</body>
+</html>

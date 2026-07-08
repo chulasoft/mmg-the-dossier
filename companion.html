@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>The Dossier · Companion</title>
+<script src="./i18n.js"></script>
+<style>
+:root{
+  --paper:#e9e1cd; --paper2:#e2d8bf; --ink:#241c12; --ink2:#5a4c38; --ink3:#8a7a62;
+  --rule:#c4b596; --red:#9a2a1e; --sepia:#8a6a3a;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);height:100%;overflow:hidden;}
+body{
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(120,90,50,0.012) 3px, rgba(120,90,50,0.012) 4px),
+    radial-gradient(ellipse 90% 50% at 50% 0%, #efe8d6, #e4dabf);
+  height:100dvh;
+}
+.hidden{display:none !important;}
+
+/* error / loading */
+.notice{text-align:center;padding:50px 20px;color:var(--ink2);height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.notice .big{font-size:2.6rem;margin-bottom:14px;}
+.notice .msg{font-size:0.9rem;line-height:1.7;font-style:italic;max-width:340px;}
+.notice .err{color:var(--red);}
+
+/* ── single-screen app ── */
+#app{height:100dvh;display:flex;flex-direction:column;animation:fadeIn 0.4s ease both;}
+
+/* compact top header */
+.topstrip{flex-shrink:0;border-bottom:2px solid var(--ink);background:var(--paper2);border-top:4px solid;padding:8px 12px;animation:fadeUp 0.45s ease both;}
+.ts-crest{display:flex;align-items:center;gap:10px;}
+.crest-icon{font-size:1.7rem;line-height:1;}
+.ts-info{flex:1;min-width:0;}
+.crest-name{font-size:1.05rem;font-weight:900;line-height:1.05;}
+.crest-player{font-size:0.62rem;color:var(--ink2);}
+.crest-code{font-family:'Courier New',monospace;font-size:0.62rem;font-weight:700;border:1px solid;border-radius:2px;padding:2px 7px;flex-shrink:0;}
+.ts-intel{display:flex;align-items:baseline;gap:8px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--rule);}
+.ts-intel-label{font-size:0.56rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);font-weight:700;flex-shrink:0;animation:intelGlow 3.5s ease-in-out infinite;}
+@keyframes intelGlow{0%,100%{text-shadow:0 0 0 rgba(154,42,30,0);}50%{text-shadow:0 0 10px rgba(154,42,30,0.45);}}
+.sheet-grip{width:40px;height:4px;border-radius:2px;background:var(--rule);margin:-6px auto 10px;}
+.intel-text{font-size:0.92rem;line-height:1.3;font-weight:700;}
+
+/* map hero: fills remaining space */
+.map-stage{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;position:relative;}
+.map-wrap{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;animation:scaleIn 0.5s 0.15s cubic-bezier(0.2,0.9,0.3,1) both;}
+.map-wrap svg{display:block;width:100%;height:100%;}
+.map-wrap canvas{display:block;width:100%;height:100%;touch-action:none;}
+.rotate-hint{font-size:0.58rem;color:var(--ink3);font-style:italic;margin-top:4px;flex-shrink:0;opacity:0.75;}
+.lang-toggle{position:fixed;top:8px;right:8px;z-index:60;min-width:34px;height:34px;padding:0 9px;border-radius:17px;
+  border:1px solid var(--ink2);background:var(--paper);color:var(--ink);font-size:0.66rem;font-weight:800;letter-spacing:0.02em;
+  cursor:pointer;box-shadow:1px 1px 0 rgba(36,28,18,0.18);display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;}
+
+/* bottom toolbar */
+.toolbar{flex-shrink:0;border-top:2px solid var(--ink);background:var(--paper2);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;animation:fadeUp 0.45s 0.1s ease both;}
+.markkey{display:flex;gap:10px;flex-wrap:wrap;}
+.markkey span{font-size:0.62rem;color:var(--ink2);display:flex;align-items:center;gap:3px;}
+.markkey i{font-style:normal;font-weight:800;font-size:0.78rem;}
+.mk-c{color:#3a6a3a;}.mk-x{color:#9a2a1e;}.mk-q{color:#6a4a7a;}
+.tools-btns{display:flex;gap:7px;flex-shrink:0;}
+.tool-btn{font-family:Georgia,serif;font-size:0.72rem;font-weight:700;padding:8px 12px;border:1px solid var(--ink2);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px;transition:all 0.14s;}
+.tool-btn:active{transform:scale(0.95);background:var(--ink);color:var(--paper);}
+.tool-btn.notes-btn{border-color:var(--sepia);color:var(--sepia);}
+
+/* bottom sheets (notes / legend) */
+.sheet-overlay{position:fixed;inset:0;background:rgba(20,14,8,0.5);backdrop-filter:blur(2px);display:none;align-items:flex-end;justify-content:center;z-index:50;}
+.sheet-overlay.show{display:flex;animation:fadeIn 0.2s ease both;}
+.sheet{background:var(--paper);border:1px solid var(--ink);border-bottom:none;border-radius:10px 10px 0 0;width:100%;max-width:560px;padding:16px 18px 24px;box-shadow:0 -6px 24px rgba(36,28,18,0.3);animation:sheetUp 0.28s cubic-bezier(0.2,0.9,0.3,1) both;max-height:80dvh;overflow-y:auto;}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;font-size:0.92rem;font-weight:800;margin-bottom:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;}
+.sheet-close{border:none;background:none;font-size:1.1rem;cursor:pointer;color:var(--ink2);padding:2px 6px;}
+.sheet textarea{width:100%;min-height:140px;font-family:Georgia,serif;font-size:0.9rem;padding:11px 13px;border:1px solid var(--ink);background:var(--paper2);color:var(--ink);resize:vertical;border-radius:3px;line-height:1.5;}
+.sheet textarea:focus{outline:2px solid var(--sepia);outline-offset:-1px;}
+.btn{font-family:Georgia,serif;font-size:0.74rem;padding:9px 14px;border:1px solid var(--ink2);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px;}
+.btn.ghost{margin-top:12px;border-style:dashed;color:var(--ink2);width:100%;}
+.btn:active{background:var(--ink);color:var(--paper);}
+.legend{display:flex;flex-wrap:wrap;gap:8px 12px;}
+.leg{display:flex;align-items:center;gap:4px;font-size:0.72rem;color:var(--ink2);}
+.leg .sw{width:13px;height:13px;border:1px solid var(--ink3);border-radius:1px;}
+.legend-note{font-size:0.66rem;color:var(--ink3);font-style:italic;line-height:1.6;margin-top:12px;padding:8px 10px;background:rgba(120,90,50,0.05);border-left:2px solid var(--rule);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
+@keyframes sheetUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+@keyframes markPop{0%{transform:scale(0);}70%{transform:scale(1.3);}100%{transform:scale(1);}}
+@keyframes markDrop{0%{opacity:0;transform:scale(2.4) translateY(-10px);}55%{opacity:1;transform:scale(0.82) translateY(2px);}75%{transform:scale(1.14) translateY(0);}100%{transform:scale(1) translateY(0);}}
+@keyframes tileDrop{0%{transform:translateY(-12px) scale(0.7);}70%{transform:translateY(2px) scale(1.04);}100%{transform:translateY(0) scale(1);}}
+@keyframes possibleHint{0%{opacity:0;}25%{opacity:0.9;}55%{opacity:0.5;}100%{opacity:0;}}
+@keyframes crestBreath{0%,100%{box-shadow:0 0 0 rgba(154,42,30,0);}50%{box-shadow:0 0 14px rgba(154,42,30,0.12);}}
+.crest-icon{animation:crestBreath 4s ease-in-out infinite;border-radius:50%;}
+.cell{transition:opacity 0.18s ease;}
+.cell:active{opacity:0.6 !important;}
+/* hide rotate hint in landscape (map already big) */
+@media(orientation:landscape){.rotate-hint{display:none;} .ts-intel{margin-top:4px;padding-top:4px;}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms !important;animation-iteration-count:1 !important;}}
+</style>
+
+</head>
+<body>
+
+
+<div id="loading" class="notice">
+  <div class="big">📓</div>
+  <div class="msg" data-i18n="loadingCompanion"></div>
+</div>
+
+<div id="error" class="notice hidden">
+  <div class="big">🔒</div>
+  <div class="msg err" id="errMsg"></div>
+</div>
+
+<button id="langToggle" class="lang-toggle" title="Language">TH</button>
+
+<div id="app" class="hidden">
+  <!-- compact header: faction + intel -->
+  <div class="topstrip" id="crest">
+    <div class="ts-crest">
+      <span class="crest-icon" id="crestIcon"></span>
+      <div class="ts-info">
+        <div class="crest-name" id="crestName"></div>
+        <div class="crest-player" id="crestPlayer"></div>
+      </div>
+      <span class="crest-code" id="crestCode"></span>
+    </div>
+    <div class="ts-intel">
+      <span class="ts-intel-label" data-i18n="compIntelLabel"></span>
+      <span class="intel-text" id="intelText"></span>
+    </div>
+  </div>
+
+  <!-- map hero -->
+  <div class="map-stage">
+    <div class="map-wrap" id="mapWrap"></div>
+    <div class="rotate-hint" id="rotateHint" data-i18n="compRotateHint"></div>
+  </div>
+
+  <!-- bottom toolbar -->
+  <div class="toolbar">
+    <div class="markkey">
+      <span><i class="mk-c">✓</i><span data-i18n="compLikely"></span></span>
+      <span><i class="mk-x">✗</i><span data-i18n="compRuledOut"></span></span>
+      <span><i class="mk-q">?</i><span data-i18n="compUnsure"></span></span>
+    </div>
+    <div class="tools-btns">
+      <button class="tool-btn" id="openLegend">🗺️ <span data-i18n="compTerrain"></span></button>
+      <button class="tool-btn notes-btn" id="openNotes">📝 <span data-i18n="compNotes"></span></button>
+    </div>
+  </div>
+
+  <!-- NOTES SHEET -->
+  <div class="sheet-overlay" id="notesSheet">
+    <div class="sheet">
+      <div class="sheet-grip"></div>
+      <div class="sheet-head"><span>📝 <span data-i18n="compNotes"></span></span><button class="sheet-close" id="closeNotes">✕</button></div>
+      <textarea id="notes" data-i18n-ph="compNotesPlaceholder"></textarea>
+      <button class="btn ghost" id="resetMarks" data-i18n="compClearMarks"></button>
+    </div>
+  </div>
+
+  <!-- LEGEND SHEET -->
+  <div class="sheet-overlay" id="legendSheet">
+    <div class="sheet">
+      <div class="sheet-grip"></div>
+      <div class="sheet-head"><span>🗺️ <span data-i18n="compTerrain"></span></span><button class="sheet-close" id="closeLegend">✕</button></div>
+      <div class="legend" id="legend"></div>
+      <div class="legend-note" data-i18n="compFadeNote"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== THREE.JS 3D BOARD (lite profile) ===== -->
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from "three";
+const COLS=13, ROWS=10, SIZE=1.0;
+const TERRAIN={ factory:{color:0x6b4a2e,icon:"🏭"}, smog:{color:0xcdd2d6,icon:"🌫️"}, cemetery:{color:0xa8d8a8,icon:"✝"}, slums:{color:0xe8b4c4,icon:"🏚"}, harbor:{color:0x2a4a78,icon:"🌊",water:true} };
+const FEATURE={ clock_tower:{icon:"🕰",h:2.5}, station:{icon:"🚉",h:1.15}, power_plant:{icon:"⚡",h:1.75} };
+const hexWorld=(c,r)=>({x:SIZE*Math.sqrt(3)*(c+0.5*(r&1)), z:SIZE*1.5*r});
+const toCube=(c,r)=>{const x=c-(r-(r&1))/2;return{x,y:-x-r,z:r};};
+const hdist=(a,b)=>{const A=toCube(a.col,a.row),B=toCube(b.col,b.row);return Math.max(Math.abs(A.x-B.x),Math.abs(A.y-B.y),Math.abs(A.z-B.z));};
+const reduce=()=>window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function hexShape(){const s=new THREE.Shape();for(let i=0;i<6;i++){const a=Math.PI/180*(60*i-30);const px=SIZE*0.94*Math.cos(a),py=SIZE*0.94*Math.sin(a);i?s.lineTo(px,py):s.moveTo(px,py);}s.closePath();return s;}
+function emojiSprite(ch,scale){const c=document.createElement("canvas");c.width=c.height=64;const g=c.getContext("2d");g.font="46px serif";g.textAlign="center";g.textBaseline="middle";g.fillText(ch,32,36);const tex=new THREE.CanvasTexture(c);tex.anisotropy=2;const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,depthTest:false}));sp.scale.set(scale||1,scale||1,1);return sp;}
+function markSprite(kind){const map={check:"✓",cross:"✗",q:"?"};const col={check:"#3a6a3a",cross:"#9a2a1e",q:"#6a4a7a"};const c=document.createElement("canvas");c.width=c.height=64;const g=c.getContext("2d");g.font="bold 52px Georgia,serif";g.textAlign="center";g.textBaseline="middle";g.fillStyle=col[kind];g.fillText(map[kind],32,36);const tex=new THREE.CanvasTexture(c);tex.anisotropy=2;const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,depthTest:false}));sp.scale.set(0.85,0.85,1);sp.userData={isMark:true};return sp;}
+function addEdges(group,color,opacity){const add=[];group.traverse(o=>{if(o.isMesh)add.push(o);});for(const m of add){const e=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry,28),new THREE.LineBasicMaterial({color:color||0x2a1f14,transparent:true,opacity:opacity==null?0.5:opacity}));m.add(e);}}
+const _tc={};
+function terrainTexture(hc){if(_tc[hc])return _tc[hc];const S=64,c=document.createElement("canvas");c.width=c.height=S;const g=c.getContext("2d");const r=(hc>>16)&255,gg=(hc>>8)&255,b=hc&255;g.fillStyle="rgb("+r+","+gg+","+b+")";g.fillRect(0,0,S,S);for(let i=0;i<300;i++){const x=Math.random()*S,y=Math.random()*S,d=(Math.random()<0.5?-1:1)*(6+Math.random()*8);g.fillStyle="rgba("+(r+d)+","+(gg+d)+","+(b+d)+",0.16)";g.fillRect(x,y,1.3,1.3);}g.strokeStyle="rgba(0,0,0,0.03)";for(let x=-S;x<S;x+=7){g.beginPath();g.moveTo(x,0);g.lineTo(x+S,S);g.stroke();}const tex=new THREE.CanvasTexture(c);_tc[hc]=tex;return tex;}
+function makeRailStub(angle,length,surfY){const g=new THREE.Group();const railMat=new THREE.MeshStandardMaterial({color:0x33251a,roughness:0.55,metalness:0.4});const tieMat=new THREE.MeshStandardMaterial({color:0x4a3826,roughness:0.85});const gauge=0.11;for(const off of[-gauge,gauge]){const rail=new THREE.Mesh(new THREE.BoxGeometry(length,0.05,0.05),railMat);rail.position.set(length/2,surfY+0.04,off);g.add(rail);}const ties=Math.max(2,Math.round(length/0.16));for(let i=0;i<ties;i++){const x=(i+0.5)*(length/ties);const tie=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.035,gauge*2+0.09),tieMat);tie.position.set(x,surfY+0.02,0);g.add(tie);}g.rotation.y=-angle;return g;}
+function makeBuilding(kind){const g=new THREE.Group();const H=FEATURE[kind].h;if(kind==="clock_tower"){const mat=new THREE.MeshStandardMaterial({color:0xc9962a,roughness:0.55,metalness:0.35});const body=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.46,H*0.82,8),mat);body.position.y=H*0.41;g.add(body);const spire=new THREE.Mesh(new THREE.ConeGeometry(0.44,H*0.32,8),mat);spire.position.y=H*0.82+H*0.16;g.add(spire);const faceMat=new THREE.MeshStandardMaterial({color:0xfff6e2,emissive:0x6a5220,emissiveIntensity:0.5,roughness:0.35});const ringMat=new THREE.MeshStandardMaterial({color:0x2a1f10,roughness:0.5,metalness:0.4});for(const rot of[0,Math.PI]){const z=rot===0?0.42:-0.42;const face=new THREE.Mesh(new THREE.CircleGeometry(0.23,20),faceMat);face.position.set(0,H*0.62,z);face.rotation.y=rot;g.add(face);const ring=new THREE.Mesh(new THREE.TorusGeometry(0.23,0.03,8,20),ringMat);ring.position.set(0,H*0.62,z);ring.rotation.y=rot;g.add(ring);}}else if(kind==="power_plant"){const mat=new THREE.MeshStandardMaterial({color:0x6b4a2e,roughness:0.82,metalness:0.08});const body=new THREE.Mesh(new THREE.BoxGeometry(0.95,H*0.5,0.8),mat);body.position.y=H*0.25;g.add(body);const roof=new THREE.Mesh(new THREE.BoxGeometry(1.0,H*0.08,0.85),mat);roof.position.y=H*0.5;g.add(roof);const chMat=new THREE.MeshStandardMaterial({color:0x5a3d24,roughness:0.85});const c1=new THREE.Mesh(new THREE.CylinderGeometry(0.13,0.15,H*0.55,10),chMat);c1.position.set(-0.22,H*0.5+H*0.275,0);g.add(c1);const c2=new THREE.Mesh(new THREE.CylinderGeometry(0.11,0.13,H*0.4,10),chMat);c2.position.set(0.2,H*0.5+H*0.2,0.05);g.add(c2);}else{const mat=new THREE.MeshStandardMaterial({color:0x8a8f96,roughness:0.7,metalness:0.2});const base=new THREE.Mesh(new THREE.BoxGeometry(1.05,H*0.55,0.62),mat);base.position.y=H*0.275;g.add(base);const roofMat=new THREE.MeshStandardMaterial({color:0x6a6f76,roughness:0.6,metalness:0.25});const roof=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.4,1.12,3),roofMat);roof.rotation.z=Math.PI/2;roof.scale.set(1,1,0.5);roof.position.y=H*0.62;g.add(roof);}g.traverse(o=>{if(o.isMesh)o.castShadow=false;});addEdges(g,0x2a1f14,0.5);return g;}
+
+function createCompanion3D(container, onTap){
+  let renderer;
+  try{ renderer=new THREE.WebGLRenderer({antialias:false,alpha:true}); }catch(e){ return null; }
+  const W=container.clientWidth||360,H=container.clientHeight||480;
+  renderer.setSize(W,H); renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  container.innerHTML=""; container.appendChild(renderer.domElement);
+  renderer.domElement.style.cssText="display:block;width:100%;height:100%;touch-action:none;";
+  const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0xe4dabf,24,70);
+  const cam=new THREE.PerspectiveCamera(44,W/H,0.1,500);
+  scene.add(new THREE.AmbientLight(0xcdd2d6,0.85));
+  const key=new THREE.DirectionalLight(0xffe8c4,0.9); key.position.set(8,20,8); scene.add(key);
+  const board=new THREE.Group(); scene.add(board);
+  const tiles={}; let cells=[],cX=0,cZ=0;
+  const ray=new THREE.Raycaster(),ptr=new THREE.Vector2();
+  const tweens=[]; function tween(o,to,dur,ease,cb){const from={};for(const k in to)from[k]=o[k];tweens.push({o,from,to,dur,t0:performance.now(),ease:ease||(x=>x),cb,done:false});}
+  function stepT(now){for(const t of tweens){if(t.done)continue;let k=Math.min(1,(now-t.t0)/t.dur);const e=t.ease(k);for(const key in t.to)t.o[key]=t.from[key]+(t.to[key]-t.from[key])*e;if(k>=1){t.done=true;t.cb&&t.cb();}}for(let i=tweens.length-1;i>=0;i--)if(tweens[i].done)tweens.splice(i,1);}
+
+  let polar=48*Math.PI/180,azim=0,dist=24,tP=polar,tA=azim,tD=dist;
+  function applyCam(){cam.position.set(Math.sin(tP)*Math.sin(tA)*tD,Math.cos(tP)*tD,Math.sin(tP)*Math.cos(tA)*tD);cam.lookAt(0,0,0);}
+  applyCam();
+  const el=renderer.domElement; let drag=false,moved=false,lx=0,ly=0;
+  el.addEventListener("pointerdown",e=>{drag=true;moved=false;lx=e.clientX;ly=e.clientY;el.setPointerCapture(e.pointerId);});
+  el.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-lx,dy=e.clientY-ly;if(Math.abs(dx)+Math.abs(dy)>6)moved=true;lx=e.clientX;ly=e.clientY;tA=Math.max(-0.55,Math.min(0.55,tA-dx*0.007));tP=Math.max(38*Math.PI/180,Math.min(60*Math.PI/180,tP-dy*0.005));invalidate();});
+  el.addEventListener("pointerup",e=>{drag=false;if(!moved){const cell=pick(e);if(cell&&onTap)onTap(cell.id);}});
+  el.addEventListener("wheel",e=>{e.preventDefault();tD=Math.max(15,Math.min(40,tD+e.deltaY*0.02));invalidate();},{passive:false});
+
+  function pick(e){const r=el.getBoundingClientRect();ptr.x=((e.clientX-r.left)/r.width)*2-1;ptr.y=-((e.clientY-r.top)/r.height)*2+1;ray.setFromCamera(ptr,cam);const hits=ray.intersectObjects(Object.values(tiles).map(g=>g.userData.tile),false);return hits[0]?hits[0].object.userData.cell:null;}
+
+  function build(cellArr){
+    board.traverse(o=>{if(o.isMesh){o.geometry&&o.geometry.dispose&&o.geometry.dispose();}});
+    while(board.children.length)board.remove(board.children[0]);
+    for(const k in tiles)delete tiles[k];
+    cells=cellArr;
+    let sx=0,sz=0;for(const c of cells){const w=hexWorld(c.col,c.row);sx+=w.x;sz+=w.z;}cX=sx/cells.length;cZ=sz/cells.length;
+    const dep=0.6;
+    const base=new THREE.Mesh(new THREE.BoxGeometry(COLS*SIZE*1.95,dep*0.7,ROWS*SIZE*1.75),new THREE.MeshStandardMaterial({color:0x3a2c1a,roughness:0.95}));base.position.y=-dep*0.45;board.add(base);
+    const rim=new THREE.Mesh(new THREE.BoxGeometry(COLS*SIZE*2.02,dep*0.3,ROWS*SIZE*1.82),new THREE.MeshStandardMaterial({color:0x8a6a3a,roughness:0.6,metalness:0.3}));rim.position.y=-dep*0.72;board.add(rim);
+    const hexGeo=new THREE.ExtrudeGeometry(hexShape(),{depth:dep,bevelEnabled:true,bevelThickness:0.04,bevelSize:0.04,bevelSegments:1});hexGeo.rotateX(-Math.PI/2);
+    const waterGeo=new THREE.ExtrudeGeometry(hexShape(),{depth:dep*0.55,bevelEnabled:true,bevelThickness:0.03,bevelSize:0.03,bevelSegments:1});waterGeo.rotateX(-Math.PI/2);
+    const railCells=cells.filter(c=>c.rail);
+    for(const c of cells){
+      const w=hexWorld(c.col,c.row),t=TERRAIN[c.terrain],isWater=!!t.water;
+      const grp=new THREE.Group();grp.position.set(w.x-cX,0,w.z-cZ);
+      const mat=new THREE.MeshStandardMaterial({color:isWater?t.color:0xffffff,map:isWater?null:terrainTexture(t.color),roughness:isWater?0.3:0.9,metalness:isWater?0.3:0.05,transparent:true});
+      const tile=new THREE.Mesh(isWater?waterGeo:hexGeo,mat);tile.userData={cell:c,mat};grp.add(tile);
+      grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(isWater?waterGeo:hexGeo),new THREE.LineBasicMaterial({color:0x4a3826,transparent:true,opacity:0.55})));
+      grp.userData={cell:c,tile,baseY:0};board.add(grp);tiles[c.id]=grp;
+      const surfY=isWater?dep*0.55:dep;
+      for(const f of c.features){const b=makeBuilding(f);b.position.y=surfY;grp.add(b);const sp=emojiSprite(FEATURE[f].icon,0.75);sp.position.set(0.3,surfY+FEATURE[f].h+0.32,0);grp.add(sp);}
+      if(c.rail){for(const nb of railCells){if(nb.id===c.id||hdist(c,nb)!==1)continue;const wn=hexWorld(nb.col,nb.row);const ang=Math.atan2(wn.z-w.z,wn.x-w.x);const half=Math.hypot(wn.x-w.x,wn.z-w.z)/2;grp.add(makeRailStub(ang,half,dep+0.02));}}
+    }
+    frame(); invalidate();
+  }
+  function frame(){tD=24;tP=48*Math.PI/180;tA=0;}
+
+  // dim impossible cells (feature or ruled-out); highlight possible
+  function setPossible(){
+    for(const c of cells){const g=tiles[c.id];if(!g)continue;const faded=!c._possible;g.traverse(o=>{if(o.isMesh&&o.material){o.material.opacity=faded?0.32:1;o.material.needsUpdate=true;}o.isSprite&&(o.material.opacity=faded?0.3:1);});}
+    invalidate();
+  }
+  function setMarks(marks,freshId){
+    for(const id in tiles){const g=tiles[id];for(let i=g.children.length-1;i>=0;i--)if(g.children[i].userData&&g.children[i].userData.isMark)g.remove(g.children[i]);}
+    for(const cid in marks){const g=tiles[cid];if(!g)continue;const sp=markSprite(marks[cid]);sp.position.set(0,0.95,0);g.add(sp);if(cid===freshId&&!reduce()){sp.scale.set(0.1,0.1,1);tween(sp.scale,{x:0.85,y:0.85},300,x=>1+2.7*Math.pow(x-1,3)+1.7*Math.pow(x-1,2));}}
+    invalidate();
+  }
+  function pulsePossible(){
+    if(reduce())return;
+    for(const c of cells){if(!c._possible)continue;const g=tiles[c.id];if(!g)continue;const m=g.userData.tile.material;if(!m.emissive)continue;const s={v:0};tween(s,{v:0.5},800,x=>x,()=>{const s2={v:0.5};tween(s2,{v:0},800,x=>x);});const iv=setInterval(()=>{m.emissive.setRGB(0.9*s.v,0.75*s.v,0.3*s.v);invalidate();},30);setTimeout(()=>clearInterval(iv),1700);}
+  }
+  let needs=true,running=true;
+  function invalidate(){needs=true;}
+  function loop(now){if(!running)return;requestAnimationFrame(loop);if(document.hidden)return;stepT(now||performance.now());polar+=(tP-polar)*0.14;azim+=(tA-azim)*0.14;dist+=(tD-dist)*0.14;applyCam();const moving=Math.abs(tP-polar)>1e-4||Math.abs(tA-azim)>1e-4||Math.abs(tD-dist)>1e-4||tweens.length>0;if(needs||moving){renderer.render(scene,cam);needs=false;}}
+  requestAnimationFrame(loop);
+  function resize(){const w=container.clientWidth||360,h=container.clientHeight||480;renderer.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();invalidate();}
+  new ResizeObserver(resize).observe(container);
+  return { build, setPossible, setMarks, pulsePossible, resize, dispose:()=>{running=false;renderer.dispose();} };
+}
+window.C3D = { create: createCompanion3D };
+window.dispatchEvent(new Event("c3d-ready"));
+</script>
+
+<script>// ═══════════════════════════════════════════════════════════
+//  THE DOSSIER · COMPANION (สมุดสายลับ)
+// ═══════════════════════════════════════════════════════════
+(function () {
+"use strict";
+
+const COLS = 13, ROWS = 10, HS = 22;
+const TERRAIN = {
+  factory:  { fill: "#6b4a2e", label: "ย่านโรงงาน",   icon: "🏭" },
+  smog:     { fill: "#cdd2d6", label: "ตรอกหมอกควัน", icon: "🌫️" },
+  cemetery: { fill: "#a8d8a8", label: "สุสานเก่า",    icon: "✝" },
+  slums:    { fill: "#e8b4c4", label: "สลัมร้าง",     icon: "🏚" },
+  harbor:   { fill: "#2a4a78", label: "ท่าเรือ",      icon: "🌊", water: true },
+};
+const FEATURE = {
+  clock_tower: { icon: "🕰", label: "หอนาฬิกา" },
+  station:     { icon: "🚉", label: "สถานีรถไฟ" },
+  power_plant: { icon: "⚡", label: "โรงไฟฟ้า" },
+};
+const FACTION = {
+  cogwork:   { th: "สมาคมเฟืองจักร", icon: "⚙", color: "#8a6a28" },
+  seance:    { th: "คณะทรงญาณ",      icon: "☽", color: "#6a4a7a" },
+  ashen:     { th: "กลุ่มเถ้าธุลี",  icon: "✦", color: "#9a3a2a" },
+  lamplight: { th: "คณะตะเกียง",     icon: "🕯", color: "#a07028" },
+  crown:     { th: "มงกุฎเหล็ก",     icon: "♛", color: "#3a5a72" },
+};
+const PCOLOR = ["#9a2a1e", "#8a6a28", "#3a5a72", "#6a4a7a", "#3a6a3a"];
+
+const hpos = (c, r) => ({ x: HS * 1.75 * c + (r % 2 ? HS * 0.875 : 0) + HS, y: HS * 1.52 * r + HS });
+const hpts = (cx, cy, rr) => Array.from({ length: 6 }, (_, i) => { const a = (Math.PI / 180) * (60 * i - 30); return (cx + rr * Math.cos(a)).toFixed(1) + "," + (cy + rr * Math.sin(a)).toFixed(1); }).join(" ");
+const toCube = (c, r) => { const x = c - (r - (r & 1)) / 2; return { x: x, y: -x - r, z: r }; };
+const hdist = (a, b) => { const A = toCube(a.col, a.row), B = toCube(b.col, b.row); return Math.max(Math.abs(A.x - B.x), Math.abs(A.y - B.y), Math.abs(A.z - B.z)); };
+
+function evalClue(clue, cell, cells) {
+  const p = clue.params || {};
+  switch (clue.type) {
+    case "within_feat": { const ts = cells.filter(c => c.features.includes(p.feat)); return ts.length > 0 && ts.some(t => hdist(cell, t) <= p.dist); }
+    case "within_feat_or": { const ts = cells.filter(c => c.features.some(f => p.feats.includes(f))); return ts.length > 0 && ts.some(t => hdist(cell, t) <= p.dist); }
+    case "within_terrain": { if (cell.terrain === p.terrain) return true; const ts = cells.filter(c => c.terrain === p.terrain); return ts.some(t => hdist(cell, t) <= p.dist); }
+    case "on_terrain": return cell.terrain === p.terrain;
+    case "on_terrain_or": return p.terrains.includes(cell.terrain);
+    case "on_rail": return cell.rail;
+    case "within_rail": { const ts = cells.filter(c => c.rail); return ts.some(t => hdist(cell, t) <= p.dist); }
+    default: return false;
+  }
+}
+
+const $ = id => document.getElementById(id);
+function fail(msg) { $("loading").classList.add("hidden"); $("error").classList.remove("hidden"); $("errMsg").innerHTML = msg; }
+
+let CELLS = null, MYCLUE = null, MARKS = {}, LASTMARK = null, COMP_FIRST = true;
+let comp3d = null, USE_3D = false;
+
+// parse url
+const params = new URLSearchParams(location.search);
+const mapIdx = parseInt(params.get("map"), 10);
+const pIdx = parseInt(params.get("p"), 10);
+const mode = params.get("mode") || "open";
+
+if (isNaN(mapIdx) || isNaN(pIdx)) {
+  fail(I18N.t("compInvalidLink"));
+} else {
+  const useMaps = (maps) => {
+    const preset = maps.find(m => m.index === mapIdx) || maps[mapIdx];
+    if (!preset) return fail(I18N.t("mapNotFound", { n: mapIdx }));
+    if (pIdx < 0 || pIdx >= preset.factions.length) return fail(I18N.t("playerNotFound"));
+    boot(preset, pIdx);
+  };
+  fetch("./maps.json")
+    .then(r => r.json())
+    .then(useMaps)
+    .catch(() => fail(I18N.t("compLoadFail")));
+}
+
+function boot(preset, pi) {
+  const faction = preset.factions[pi];
+  const fc = FACTION[faction];
+  const lang = I18N.getLang();
+  MYCLUE = preset.clues.find(c => c.faction === faction);
+  CELLS = preset.board.map(c => ({ ...c, id: c.col + "-" + c.row }));
+
+  // crest
+  $("crest").style.borderTopColor = fc.color;
+  $("crestIcon").textContent = mode === "hidden" ? "📓" : fc.icon;
+  $("crestName").textContent = mode === "hidden" ? I18N.t("secretSociety") : I18N.FACTION_I18N[lang][faction].name;
+  $("crestName").style.color = mode === "hidden" ? "var(--ink)" : fc.color;
+  $("crestPlayer").textContent = I18N.t("playerLabel") + " " + (pi + 1);
+  $("crestCode").textContent = MYCLUE.code;
+  $("crestCode").style.color = fc.color;
+  $("crestCode").style.borderColor = fc.color;
+
+  // intel (derived live from tplKey+params so it re-renders on language switch)
+  $("intelText").textContent = I18N.renderClueLabel(MYCLUE, lang);
+
+  // load saved marks/notes (per map+player); use localStorage if available
+  const key = "dossier_" + preset.index + "_" + pi;
+  try {
+    const saved = JSON.parse(localStorage.getItem(key) || "{}");
+    MARKS = saved.marks || {};
+    if (saved.notes) $("notes").value = saved.notes;
+  } catch (e) { MARKS = {}; }
+
+  function persist() {
+    try { localStorage.setItem(key, JSON.stringify({ marks: MARKS, notes: $("notes").value })); } catch (e) {}
+  }
+  $("notes").addEventListener("input", persist);
+  $("resetMarks").onclick = () => { MARKS = {}; persist(); renderMap(); $("notesSheet").classList.remove("show"); };
+
+  // bottom sheets
+  const openSheet = el => el.classList.add("show");
+  const closeSheet = el => el.classList.remove("show");
+  $("openNotes").onclick = () => openSheet($("notesSheet"));
+  $("closeNotes").onclick = () => closeSheet($("notesSheet"));
+  $("openLegend").onclick = () => openSheet($("legendSheet"));
+  $("closeLegend").onclick = () => closeSheet($("legendSheet"));
+  [$("notesSheet"), $("legendSheet")].forEach(ov => ov.addEventListener("click", e => { if (e.target === ov) closeSheet(ov); }));
+
+  // swipe-down on a sheet to close
+  [$("notesSheet"), $("legendSheet")].forEach(ov => {
+    const sheet = ov.querySelector(".sheet");
+    let startY = null;
+    sheet.addEventListener("touchstart", e => { startY = e.touches[0].clientY; }, { passive: true });
+    sheet.addEventListener("touchmove", e => {
+      if (startY === null) return;
+      const dy = e.touches[0].clientY - startY;
+      if (dy > 0) sheet.style.transform = "translateY(" + Math.min(dy, 300) + "px)";
+    }, { passive: true });
+    sheet.addEventListener("touchend", e => {
+      const dy = (e.changedTouches[0].clientY - startY);
+      sheet.style.transform = "";
+      if (dy > 90) closeSheet(ov);
+      startY = null;
+    });
+  });
+
+  window.__renderLegend = renderLegend;
+  window.__refreshDynamic = () => {
+    const lang2 = I18N.getLang();
+    $("crestName").textContent = mode === "hidden" ? I18N.t("secretSociety") : I18N.FACTION_I18N[lang2][faction].name;
+    $("crestPlayer").textContent = I18N.t("playerLabel") + " " + (pi + 1);
+    $("intelText").textContent = I18N.renderClueLabel(MYCLUE, lang2);
+    renderLegend();
+  };
+  renderLegend();
+
+  // precompute possible cells (my clue true)
+  CELLS.forEach(c => { c._possible = c.features.length === 0 && evalClue(MYCLUE, c, CELLS); });
+
+  window.__persist = persist;
+
+  // try 3D board (lite); fallback to SVG if WebGL unavailable
+  try3D();
+  if (comp3d) { comp3d.build(CELLS); comp3d.setPossible(); comp3d.setMarks(MARKS, null); setTimeout(() => comp3d.resize(), 60); }
+
+  renderMap();
+
+  $("loading").classList.add("hidden");
+  $("app").classList.remove("hidden");
+
+  // one-time teaching cue: pulse the cells your intel still allows
+  setTimeout(highlightPossibleOnce, 700);
+}
+
+// ── 3D board (Three.js lite) with SVG fallback ──
+function try3D() {
+  if (comp3d || !window.C3D) return;
+  try { const inst = window.C3D.create($("mapWrap"), (cellId) => cycleMark(cellId)); if (inst) { comp3d = inst; USE_3D = true; } }
+  catch (e) { comp3d = null; USE_3D = false; }
+}
+
+// briefly outline the still-possible cells so the player learns "bright = possible"
+function renderLegend() {
+  const lang = I18N.getLang();
+  const leg = $("legend");
+  leg.innerHTML = "";
+  Object.keys(TERRAIN).forEach(k => {
+    const v = TERRAIN[k];
+    const s = document.createElement("span");
+    s.className = "leg";
+    s.innerHTML = '<span class="sw" style="background:' + v.fill + '"></span>' + I18N.TERRAIN_NAME[lang][k];
+    leg.appendChild(s);
+  });
+  ["\uD83D\uDE84 " + I18N.t("railLabel")].concat(
+    Object.keys(FEATURE).map(k => FEATURE[k].icon + " " + I18N.FEATURE_NAME[lang][k])
+  ).forEach(t => {
+    const s = document.createElement("span"); s.className = "leg"; s.textContent = t; leg.appendChild(s);
+  });
+}
+
+function highlightPossibleOnce() {
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (USE_3D && comp3d) { comp3d.pulsePossible(); return; }
+  const svg = $("mapWrap").querySelector("svg");
+  if (!svg) return;
+  const ns = "http://www.w3.org/2000/svg";
+  CELLS.filter(c => c._possible).forEach(cell => {
+    const pos = hpos(cell.col, cell.row);
+    const pts = hpts(pos.x, pos.y, HS - 1.2);
+    const p = document.createElementNS(ns, "polygon");
+    p.setAttribute("points", pts);
+    p.setAttribute("fill", "none");
+    p.setAttribute("stroke", "#e9c46a");
+    p.setAttribute("stroke-width", "2");
+    p.setAttribute("style", "pointer-events:none;animation:possibleHint 1.6s ease both");
+    svg.appendChild(p);
+    setTimeout(() => p.remove(), 1700);
+  });
+}
+
+// cycle mark: none → check → cross → question → none
+function cycleMark(id) {
+  const cur = MARKS[id] || "";
+  const next = cur === "" ? "check" : cur === "check" ? "cross" : cur === "cross" ? "q" : "";
+  if (next === "") delete MARKS[id]; else MARKS[id] = next;
+  LASTMARK = id;
+  if (navigator.vibrate) { try { navigator.vibrate(9); } catch (e) {} }
+  if (window.__persist) window.__persist();
+  renderMap();
+}
+
+function renderMap() {
+  if (USE_3D && comp3d) { comp3d.setPossible(); comp3d.setMarks(MARKS, LASTMARK); return; }
+  const svgW = HS * 1.75 * COLS + HS * 2, svgH = HS * 1.52 * ROWS + HS * 2;
+  let s = '<svg viewBox="0 0 ' + svgW + ' ' + svgH + '" xmlns="http://www.w3.org/2000/svg">';
+
+  // rail: build first, draw after hexes; dim rail on ruled-out cells
+  let railSvg = "";
+  const rail = CELLS.filter(c => c.rail);
+  for (const a of rail) for (const b of rail) {
+    if (a.id < b.id && hdist(a, b) === 1) {
+      const pa = hpos(a.col, a.row), pb = hpos(b.col, b.row);
+      const dim = (!a._possible && !b._possible);
+      const o = dim ? 0.22 : 1;
+      railSvg += '<line x1="' + pa.x + '" y1="' + pa.y + '" x2="' + pb.x + '" y2="' + pb.y + '" stroke="#3a2c1a" stroke-width="2.4" stroke-linecap="round" opacity="' + (0.75 * o) + '"/>';
+      railSvg += '<line x1="' + pa.x + '" y1="' + pa.y + '" x2="' + pb.x + '" y2="' + pb.y + '" stroke="#c4b596" stroke-width="0.7" stroke-dasharray="2 3" stroke-linecap="round" opacity="' + o + '"/>';
+    }
+  }
+
+  const cascade = COMP_FIRST;
+  for (const cell of CELLS) {
+    const pos = hpos(cell.col, cell.row);
+    const pts = hpts(pos.x, pos.y, HS - 1.2);
+    const t = TERRAIN[cell.terrain];
+    const faded = !cell._possible;       // auto-fade impossible-by-my-clue
+    const op = faded ? 0.18 : 1;
+    let st = 'cursor:pointer';
+    if (cascade) { const d = ((cell.col + cell.row) * 0.022).toFixed(3); st += ';transform-box:fill-box;transform-origin:center;animation:tileDrop 0.4s cubic-bezier(0.2,0.9,0.3,1.2) both;animation-delay:' + d + 's'; }
+    s += '<polygon points="' + pts + '" fill="' + t.fill + '" stroke="#5a4632" stroke-width="0.6" opacity="' + op + '" data-id="' + cell.id + '" class="cell" style="' + st + '"/>';
+  }
+  if (cascade) COMP_FIRST = false;
+
+  // วาดรางทับบน hex
+  s += railSvg;
+
+  // features (dim if faded)
+  for (const cell of CELLS) {
+    const pos = hpos(cell.col, cell.row);
+    const faded = !cell._possible;
+    for (const f of cell.features) {
+      s += '<text x="' + pos.x + '" y="' + (pos.y + 1) + '" text-anchor="middle" dominant-baseline="middle" font-size="11" opacity="' + (faded ? 0.25 : 1) + '" style="pointer-events:none">' + FEATURE[f].icon + '</text>';
+    }
+  }
+
+  // user marks
+  for (const cell of CELLS) {
+    const m = MARKS[cell.id];
+    if (!m) continue;
+    const pos = hpos(cell.col, cell.row);
+    const fresh = cell.id === LASTMARK;
+    const anim = fresh ? ' style="transform-box:fill-box;transform-origin:center;animation:markDrop 0.42s cubic-bezier(0.2,0.8,0.3,1.3) both;pointer-events:none"' : ' style="pointer-events:none"';
+    if (m === "check") {
+      s += '<text x="' + pos.x + '" y="' + (pos.y + 1.5) + '" text-anchor="middle" dominant-baseline="middle" font-size="15" fill="#3a6a3a" font-weight="bold"' + anim + '>✓</text>';
+    } else if (m === "cross") {
+      s += '<text x="' + pos.x + '" y="' + (pos.y + 1.5) + '" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="#9a2a1e" font-weight="bold"' + anim + '>✗</text>';
+    } else if (m === "q") {
+      s += '<text x="' + pos.x + '" y="' + (pos.y + 1.5) + '" text-anchor="middle" dominant-baseline="middle" font-size="13" fill="#6a4a7a" font-weight="bold"' + anim + '>?</text>';
+    }
+  }
+
+  s += "</svg>";
+  $("mapWrap").innerHTML = s;
+  $("mapWrap").querySelectorAll(".cell").forEach(el => {
+    el.addEventListener("click", () => cycleMark(el.dataset.id));
+  });
+}
+
+// ── language toggle (EN default, TH available) ───────────
+function applyStaticI18N() {
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = I18N.t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => { el.placeholder = I18N.t(el.dataset.i18nPh); });
+  document.documentElement.lang = I18N.getLang();
+  $("langToggle").textContent = I18N.getLang() === "en" ? "TH" : "EN";
+}
+$("langToggle").onclick = () => {
+  I18N.setLang(I18N.getLang() === "en" ? "th" : "en");
+  applyStaticI18N();
+  if (window.__refreshDynamic) window.__refreshDynamic();
+};
+applyStaticI18N();
+
+})();
+</script>
+</body>
+</html>
