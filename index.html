@@ -14,6 +14,8 @@
     --ease-spring: cubic-bezier(0.2, 0.9, 0.3, 1.25);
     --ease-stamp: cubic-bezier(0.3, 1.4, 0.5, 1);
     --t-fast: 140ms; --t-base: 220ms; --t-slow: 550ms;
+  /* spacing scale, 8px base (see docs/UI-UX-REVIEW.md 3.1) */
+  --sp-half:4px; --sp-xs:6px; --sp-1:8px; --sp-2:16px; --sp-3:24px; --sp-4:40px; --sp-5:64px;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{min-height:100dvh;font-family:Georgia,'Times New Roman',serif;color:var(--ink);}
@@ -22,7 +24,7 @@
       repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(120,90,50,0.012) 3px, rgba(120,90,50,0.012) 4px),
       radial-gradient(ellipse 90% 60% at 50% 0%, #efe8d6, #e4dabf);
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    padding:24px;min-height:100dvh;
+    padding:var(--sp-3);min-height:100dvh;
   }
   .wrap{max-width:600px;width:100%;text-align:center;}
   /* staggered entrance: each block fades up in sequence (1.3) */
@@ -34,7 +36,7 @@
   }
   .rule{display:flex;align-items:center;gap:14px;margin:14px 0 6px;animation-delay:220ms;}
   .rule:before,.rule:after{content:"";flex:1;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);}
-  .rule span{font-size:0.66rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;}
+  .rule span{font-size:0.64rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;}
   .sub{font-size:0.86rem;color:var(--ink2);font-style:italic;line-height:1.7;margin:18px auto 34px;max-width:440px;animation-delay:300ms;}
   .choices{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;}
   .choice{
@@ -57,7 +59,7 @@
   .choice.companion .choice-title{color:var(--sepia);}
   .choice-desc{font-size:0.74rem;color:var(--ink2);line-height:1.6;}
   .choice-tag{display:inline-block;margin-top:12px;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);border:1px solid var(--rule);border-radius:2px;padding:2px 9px;}
-  .footer{margin-top:40px;font-size:0.66rem;color:var(--ink3);font-style:italic;display:flex;flex-direction:column;align-items:center;gap:12px;animation-delay:560ms;}
+  .footer{margin-top:var(--sp-4);font-size:0.66rem;color:var(--ink3);font-style:italic;display:flex;flex-direction:column;align-items:center;gap:12px;animation-delay:560ms;}
   .lab-link{font-size:0.64rem;color:var(--ink3);text-decoration:none;border:1px dashed var(--rule);border-radius:3px;padding:5px 14px;font-style:normal;transition:all var(--t-fast) var(--ease-out);}
   .lab-link:hover{color:var(--ink);border-color:var(--ink2);background:var(--paper2);}
   .lab-link:active{transform:translateY(1px);}
@@ -102,6 +104,7 @@
     </div>
     <div class="footer reveal">
       <div><span class="gear">⚙</span> &nbsp;<span data-i18n="idxFooterText"></span>&nbsp; <span class="gear">⚙</span></div>
+      <a class="lab-link" href="./rules.html" data-i18n="idxRulesLink"></a>
       <a class="lab-link" href="./lab.html" data-i18n="idxLabLink"></a>
     </div>
   </div>

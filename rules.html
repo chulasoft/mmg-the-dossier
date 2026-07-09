@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Dossier - How to Play</title>
+<style>
+  :root{
+    --paper:#e9e1cd; --paper2:#e2d8bf; --ink:#241c12; --ink2:#5a4c38; --ink3:#8a7a62;
+    --rule:#c4b596; --red:#9a2a1e; --sepia:#8a6a3a;
+    --cw:#8a6a28; --se:#6a4a7a; --as:#9a3a2a; --la:#a07028; --cr:#3a5a72;
+    --ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
+    --ease-spring: cubic-bezier(0.2, 0.9, 0.3, 1.25);
+    --t-fast: 140ms; --t-base: 220ms;
+    --sp-1:8px; --sp-2:16px; --sp-3:24px; --sp-4:40px; --sp-5:64px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);}
+  body{
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(120,90,50,0.012) 3px, rgba(120,90,50,0.012) 4px),
+      radial-gradient(ellipse 100% 55% at 50% 0%, #efe8d6, #e4dabf);
+    min-height:100dvh; padding:var(--sp-4) var(--sp-3) var(--sp-5);
+  }
+  .sheet{max-width:760px;margin:0 auto;}
+  /* editorial header (matches index / host) */
+  .kicker{font-size:0.7rem;letter-spacing:0.4em;color:var(--red);text-transform:uppercase;font-weight:700;text-align:center;margin-bottom:var(--sp-1);}
+  .title{font-size:clamp(2.2rem,7vw,3.4rem);font-weight:900;line-height:0.98;letter-spacing:-0.02em;text-align:center;text-shadow:0 2px 0 rgba(255,255,255,0.4);}
+  .rule{display:flex;align-items:center;gap:14px;margin:var(--sp-2) 0 var(--sp-3);}
+  .rule:before,.rule:after{content:"";flex:1;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);}
+  .rule span{font-size:0.64rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;}
+  .lede{font-size:0.98rem;line-height:1.75;color:var(--ink2);font-style:italic;text-align:center;max-width:600px;margin:0 auto var(--sp-4);}
+
+  section{margin-bottom:var(--sp-4);animation:rise var(--t-base) var(--ease-out) both;}
+  h2{font-size:1.3rem;font-weight:800;color:var(--ink);display:flex;align-items:baseline;gap:10px;margin-bottom:var(--sp-2);
+     border-bottom:2px solid var(--ink);padding-bottom:6px;}
+  h2 .n{font-size:0.8rem;font-weight:700;color:var(--red);letter-spacing:0.1em;}
+  h3{font-size:1rem;font-weight:800;color:var(--sepia);margin:var(--sp-2) 0 6px;}
+  p{font-size:0.92rem;line-height:1.72;color:var(--ink2);margin-bottom:10px;}
+  strong{color:var(--ink);font-weight:800;}
+  ul,ol{margin:0 0 12px 22px;}
+  li{font-size:0.92rem;line-height:1.7;color:var(--ink2);margin-bottom:6px;}
+  .card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--sepia);
+        padding:14px 16px;border-radius:3px;margin:12px 0;box-shadow:2px 2px 0 rgba(36,28,18,0.12);}
+  .card.investigate{border-left-color:var(--sepia);}
+  .card.strike{border-left-color:var(--red);}
+  .card.warn{border-left-color:var(--red);background:rgba(154,42,30,0.06);}
+  .card h3{margin-top:0;}
+  .steps{counter-reset:step;list-style:none;margin-left:0;}
+  .steps li{position:relative;padding-left:34px;margin-bottom:12px;}
+  .steps li:before{counter-increment:step;content:counter(step);position:absolute;left:0;top:-1px;
+    width:22px;height:22px;border-radius:2px;background:var(--ink);color:var(--paper);font-size:0.78rem;
+    font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .clue-grid{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0;}
+  .clue-row{display:flex;gap:12px;align-items:flex-start;background:var(--paper2);border:1px solid var(--rule);
+    border-radius:3px;padding:10px 12px;}
+  .clue-row .ic{font-size:1.3rem;flex-shrink:0;line-height:1.3;}
+  .clue-row .tx{font-size:0.86rem;line-height:1.55;color:var(--ink2);}
+  .clue-row .tx b{color:var(--ink);}
+  .facs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+  .fac{flex:1;min-width:130px;background:var(--paper2);border:1px solid var(--rule);border-top:3px solid;
+    border-radius:3px;padding:10px 12px;}
+  .fac .fn{font-weight:800;font-size:0.9rem;margin-bottom:2px;}
+  .fac .fd{font-size:0.76rem;color:var(--ink3);line-height:1.5;}
+  .fac.cw{border-top-color:var(--cw);} .fac.cw .fn{color:var(--cw);}
+  .fac.se{border-top-color:var(--se);} .fac.se .fn{color:var(--se);}
+  .fac.as{border-top-color:var(--as);} .fac.as .fn{color:var(--as);}
+  .fac.la{border-top-color:var(--la);} .fac.la .fn{color:var(--la);}
+  .fac.cr{border-top-color:var(--cr);} .fac.cr .fn{color:var(--cr);}
+  .terr{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0;}
+  .terr .t{display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--ink2);
+    background:var(--paper2);border:1px solid var(--rule);border-radius:3px;padding:5px 10px;}
+  .terr .sw{width:14px;height:14px;border-radius:2px;border:1px solid rgba(36,28,18,0.3);}
+  .backlink{display:inline-flex;align-items:center;gap:6px;margin-top:var(--sp-2);font-size:0.82rem;
+    color:var(--sepia);text-decoration:none;border:1px dashed var(--rule);border-radius:3px;padding:7px 16px;
+    transition:all var(--t-fast) var(--ease-out);}
+  .backlink:hover{color:var(--ink);border-color:var(--ink2);background:var(--paper2);}
+  .foot{text-align:center;margin-top:var(--sp-4);color:var(--ink3);font-size:0.7rem;font-style:italic;}
+  .lang-toggle{position:fixed;top:14px;right:14px;z-index:20;min-width:40px;height:36px;padding:0 10px;border-radius:18px;
+    border:1px solid var(--ink2);background:var(--paper2);color:var(--ink);font-size:0.7rem;font-weight:800;letter-spacing:0.03em;
+    cursor:pointer;box-shadow:2px 2px 0 rgba(36,28,18,0.16);display:flex;align-items:center;justify-content:center;
+    font-family:Georgia,serif;transition:all var(--t-fast) var(--ease-out);}
+  .lang-toggle:hover{transform:translateY(-2px);box-shadow:3px 4px 0 rgba(36,28,18,0.22);}
+  .lang-toggle:active{transform:translateY(0);box-shadow:1px 1px 0 rgba(36,28,18,0.2);}
+  :focus-visible{outline:2px solid var(--sepia);outline-offset:2px;}
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){section{animation:none;}}
+  @media print{.lang-toggle,.backlink{display:none;} body{background:#fff;}}
+</style>
+</head>
+<body>
+  <button id="langToggle" class="lang-toggle" title="Language">TH</button>
+  <div class="sheet">
+    <div class="kicker" data-k="kicker"></div>
+    <h1 class="title">The Dossier</h1>
+    <div class="rule"><span data-k="ruleword"></span></div>
+    <p class="lede" data-k="lede"></p>
+
+    <section>
+      <h2><span class="n">01</span><span data-k="s1h"></span></h2>
+      <p data-k="s1p1"></p>
+      <p data-k="s1p2"></p>
+    </section>
+
+    <section>
+      <h2><span class="n">02</span><span data-k="s2h"></span></h2>
+      <p data-k="s2p1"></p>
+      <div class="facs" id="facs"></div>
+      <p data-k="s2p2"></p>
+    </section>
+
+    <section>
+      <h2><span class="n">03</span><span data-k="s3h"></span></h2>
+      <p data-k="s3p1"></p>
+      <div class="terr" id="terr"></div>
+      <div class="card warn"><h3 data-k="s3ch"></h3><p data-k="s3cp" style="margin-bottom:0"></p></div>
+    </section>
+
+    <section>
+      <h2><span class="n">04</span><span data-k="s4h"></span></h2>
+      <p data-k="s4p1"></p>
+      <ol class="steps" id="s4steps"></ol>
+      <p data-k="s4p2"></p>
+    </section>
+
+    <section>
+      <h2><span class="n">05</span><span data-k="s5h"></span></h2>
+      <div class="card investigate">
+        <h3>🕵️ <span data-k="s5ih"></span></h3>
+        <p data-k="s5ip1"></p>
+        <p data-k="s5ip2" style="margin-bottom:0"></p>
+      </div>
+      <div class="card strike">
+        <h3>🔫 <span data-k="s5sh"></span></h3>
+        <p data-k="s5sp1"></p>
+        <p data-k="s5sp2" style="margin-bottom:0"></p>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="n">06</span><span data-k="s6h"></span></h2>
+      <p data-k="s6p1"></p>
+      <ul id="s6list"></ul>
+    </section>
+
+    <section>
+      <h2><span class="n">07</span><span data-k="s7h"></span></h2>
+      <p data-k="s7p1"></p>
+      <div class="clue-grid" id="clueGrid"></div>
+    </section>
+
+    <section>
+      <h2><span class="n">08</span><span data-k="s8h"></span></h2>
+      <ul id="s8list"></ul>
+    </section>
+
+    <div style="text-align:center">
+      <a class="backlink" href="./index.html" data-k="back"></a>
+    </div>
+    <div class="foot" data-k="foot"></div>
+  </div>
+
+<script>
+const R = {
+  en: {
+    kicker: "Secret Case Files - Field Manual",
+    ruleword: "How to Play",
+    lede: "A starless night. The Demon King hides somewhere in the clockwork city, disguised among the crowd. Each secret society holds one true clue. Overlap them, corner the fiend, and take the shot.",
+    s1h: "The Idea",
+    s1p1: "The Dossier is a game of deduction for <strong>3 to 5 players</strong>. Somewhere on the map, on a single hidden tile, the Demon King is hiding. Every player belongs to a different secret society and holds <strong>one secret clue</strong> that narrows down where the fiend can be.",
+    s1p2: "Every clue is true at the same time. Only <strong>one tile on the whole board</strong> satisfies all of them at once - that is where the Demon King hides. Your job is to figure out that tile before anyone else, then send your hitman to finish it.",
+    s2h: "What You Need",
+    s2p1: "One shared screen runs the game (the <strong>Host</strong> - a tablet, laptop, or TV everyone can see). Each player uses their own phone as a <strong>Companion</strong> - a private notebook showing only their own clue. On the Host, pick the number of players and a reveal mode, then each player scans their QR code to receive their secret society and clue.",
+    s2p2: "There are five societies. In <strong>Open</strong> mode everyone can see which society each player belongs to (easier). In <strong>Hidden</strong> mode the societies stay secret (harder - you will not know exactly what kind of clue an opponent holds).",
+    s3h: "The Map",
+    s3p1: "The board is a grid of hex tiles across five kinds of terrain, threaded by a rail line, with three landmark structures. Clues are always about distance from terrain, rail, or structures.",
+    s3ch: "The Structure Rule",
+    s3cp: "The Demon King is NEVER hiding on a tile that holds a structure (the Clock Tower, Station, or Power Plant). You cannot investigate or strike those tiles - the game will not let you pick them. They only ever serve as reference points for clues.",
+    s4h: "Turn Order (Snake)",
+    s4p1: "Players take turns in <strong>snake order</strong>. It runs forward down the line, then reverses and runs back, over and over:",
+    s4steps: [
+      "Round one runs forward: Player 1, Player 2, Player 3 ...",
+      "Then it reverses: ... Player 3, Player 2, Player 1.",
+      "Then forward again, and so on. The player at each end effectively takes two turns in a row when the direction flips.",
+    ],
+    s4p2: "On your turn you take exactly <strong>one action</strong>: either Investigate or Strike.",
+    s5h: "The Two Actions",
+    s5ih: "Investigate - trade intel",
+    s5ip1: "Choose another player, then choose any tile. The Host checks <strong>both</strong> your clue and theirs against that tile and places public markers: a blood mark if the tile matches a player's clue, a cross if it does not.",
+    s5ip2: "Everyone sees the result, so investigating gives the whole table information - including you. Use it to slowly rule tiles in and out.",
+    s5sh: "Send Hitman - take the shot",
+    s5sp1: "Choose the tile you believe is the Demon King's. The Host checks it against <strong>every player's</strong> clue at once.",
+    s5sp2: "If the tile satisfies all clues AND it truly is the hidden tile, you win instantly. If not, the shot misses, markers are revealed for that tile, and your turn ends - a costly mistake.",
+    s6h: "Winning and Losing",
+    s6p1: "The game ends the moment someone lands a successful strike.",
+    s6list: [
+      "<strong>Win:</strong> Send your hitman to the correct tile while every clue agrees. That player is the hero of the night.",
+      "<strong>Missed shot:</strong> If any clue disagrees, or the tile is not the true answer, the strike fails and you lose the rest of your turn. Play passes on.",
+      "There is no other way to lose - a miss simply costs you tempo and hands information to your rivals.",
+    ],
+    s7h: "Clue Types",
+    s7p1: "Your secret clue always describes where the Demon King could be. Clues come in a few shapes:",
+    clues: [
+      ["📏", "<b>Within N tiles of a place</b> - the fiend is within N steps of a specific terrain, the rail line, or a structure (for example, within 2 tiles of the Power Plant)."],
+      ["🔀", "<b>Within N of one place or another</b> - within N tiles of, say, the Station OR the Clock Tower (a wider net)."],
+      ["📍", "<b>On a kind of terrain</b> - the fiend sits on a specific terrain type, or on one of a small set of terrains."],
+      ["🛤️", "<b>On or near the rail</b> - the fiend sits on the rail line, or within N tiles of it."],
+    ],
+    s8h: "Tips for New Players",
+    s8list: [
+      "Investigate early. Public markers help everyone, but the deductions you draw from them are yours alone.",
+      "In Hidden mode, watch which tiles opponents test - their choices leak what they might know.",
+      "A tile that fails even one clue cannot be the answer. Cross it off in your Companion notebook.",
+      "Do not strike on a hunch. A missed shot wastes your turn and tells rivals the tile is wrong.",
+      "Remember the structure rule: any tile with a building can be ignored as a hiding place.",
+    ],
+    back: "\u2190 Back to the game",
+    foot: "The Dossier - a hex deduction game for 3 to 5 players",
+    facs: [
+      ["cw", "Cogwork Society", "Reads clues from steam pipes and the iron rails across the city."],
+      ["se", "S\u00e9ance Circle", "Senses omens from the old cemetery and a clock's stopped hands."],
+      ["as", "Ashen Order", "Wrings the truth from a captured demon - which ground it hides on."],
+      ["la", "Lamplight Guild", "Gathers leads from a network of reporters around the landmarks."],
+      ["cr", "Iron Crown", "Watches every platform and pier through the state's intelligence."],
+    ],
+    terr: [
+      ["#6b4a2e", "Factory District"], ["#cdd2d6", "Smog Alley"], ["#a8d8a8", "Old Cemetery"],
+      ["#e8b4c4", "Slums"], ["#2a4a78", "Harbor"], ["#3a2c1a", "Rail Line"],
+    ],
+  },
+  th: {
+    kicker: "แฟ้มลับ - คู่มือภาคสนาม",
+    ruleword: "วิธีเล่น",
+    lede: "ค่ำคืนไร้ดาว ราชาปีศาจซ่อนกายอยู่ที่ใดที่หนึ่งในนครจักรกล ปะปนในฝูงชน แต่ละสมาคมลับถือเบาะแสจริงคนละชิ้น จงซ้อนเบาะแสเข้าด้วยกัน ต้อนปีศาจให้จนมุม แล้วลงมือ",
+    s1h: "แนวคิดของเกม",
+    s1p1: "The Dossier เป็นเกมไขปริศนาสำหรับ <strong>3 ถึง 5 คน</strong> ราชาปีศาจซ่อนอยู่บนช่องลับเพียงช่องเดียวบนกระดาน ผู้เล่นแต่ละคนสังกัดสมาคมลับต่างกัน และถือ <strong>เบาะแสลับคนละ 1 ชิ้น</strong> ที่ช่วยจำกัดวงว่าปีศาจอยู่ตรงไหนได้",
+    s1p2: "เบาะแสทุกชิ้นเป็นจริงพร้อมกันทั้งหมด มีเพียง <strong>ช่องเดียวบนกระดาน</strong> ที่ตรงกับเบาะแสทุกชิ้นพร้อมกัน นั่นคือที่ซ่อนของราชาปีศาจ หน้าที่ของคุณคือไขให้ออกก่อนใคร แล้วส่งนักฆ่าไปจัดการ",
+    s2h: "สิ่งที่ต้องใช้",
+    s2p1: "ใช้จอกลาง 1 จอรันเกม (<strong>Host</strong> - แท็บเล็ต โน้ตบุ๊ก หรือทีวีที่ทุกคนมองเห็น) ผู้เล่นแต่ละคนใช้มือถือตัวเองเป็น <strong>Companion</strong> - สมุดส่วนตัวที่แสดงเฉพาะเบาะแสของตน บน Host ให้เลือกจำนวนผู้เล่นและโหมด แล้วแต่ละคนสแกน QR เพื่อรับสมาคมและเบาะแสลับของตน",
+    s2p2: "มีทั้งหมด 5 สมาคม ในโหมด <strong>เปิด</strong> ทุกคนเห็นว่าใครสังกัดสมาคมไหน (ง่ายกว่า) ในโหมด <strong>ปิด</strong> สมาคมเป็นความลับ (ยากกว่า - คุณจะไม่รู้แน่ชัดว่าคู่แข่งถือเบาะแสแบบไหน)",
+    s3h: "แผนที่",
+    s3p1: "กระดานเป็นช่องหกเหลี่ยมครอบคลุมภูมิประเทศ 5 แบบ มีรางรถไฟพาดผ่าน และมีสิ่งก่อสร้างสำคัญ 3 จุด เบาะแสจะพูดถึงระยะห่างจากภูมิประเทศ ราง หรือสิ่งก่อสร้างเสมอ",
+    s3ch: "กฎสิ่งก่อสร้าง",
+    s3cp: "ราชาปีศาจจะ ไม่มีวัน ซ่อนอยู่บนช่องที่มีสิ่งก่อสร้าง (หอนาฬิกา สถานีรถไฟ หรือโรงไฟฟ้า) คุณจะส่งสายสืบหรือลงมือกับช่องเหล่านั้นไม่ได้ - ระบบจะไม่ให้เลือก มันเป็นเพียงจุดอ้างอิงของเบาะแสเท่านั้น",
+    s4h: "ลำดับตาเดิน (งูเลื้อย)",
+    s4p1: "ผู้เล่นสลับตากันแบบ <strong>งูเลื้อย</strong> คือเดินหน้าไล่ลงไปตามแถว แล้วย้อนกลับ วนไปเรื่อยๆ:",
+    s4steps: [
+      "รอบแรกเดินหน้า: ผู้เล่น 1, ผู้เล่น 2, ผู้เล่น 3 ...",
+      "แล้วย้อนกลับ: ... ผู้เล่น 3, ผู้เล่น 2, ผู้เล่น 1",
+      "แล้วเดินหน้าอีกครั้ง วนไปเรื่อยๆ คนที่อยู่ปลายสุดของแถวจะได้เล่นสองตาติดกันตอนที่ทิศสลับ",
+    ],
+    s4p2: "ในตาของคุณ ทำได้ <strong>1 อย่างเท่านั้น</strong> คือ ส่งสายสืบ หรือ ส่งนักฆ่า",
+    s5h: "สองการกระทำ",
+    s5ih: "ส่งสายสืบ - แลกข่าว",
+    s5ip1: "เลือกผู้เล่นอีกคน แล้วเลือกช่องใดก็ได้ Host จะตรวจเบาะแส <strong>ทั้งของคุณและของเขา</strong> กับช่องนั้น แล้ววางเครื่องหมายสาธารณะ: รอยเลือดถ้าช่องตรงกับเบาะแสของผู้เล่นคนนั้น หรือกากบาทถ้าไม่ตรง",
+    s5ip2: "ทุกคนเห็นผลลัพธ์ การส่งสายสืบจึงให้ข้อมูลกับทั้งวง รวมถึงตัวคุณ ใช้มันค่อยๆ ตัดช่องเข้าออก",
+    s5sh: "ส่งนักฆ่า - ลงมือ",
+    s5sp1: "เลือกช่องที่คุณเชื่อว่าเป็นที่ซ่อนของราชาปีศาจ Host จะตรวจกับเบาะแส <strong>ของผู้เล่นทุกคน</strong> พร้อมกัน",
+    s5sp2: "ถ้าช่องนั้นตรงกับเบาะแสทุกชิ้น และ เป็นช่องลับจริง คุณชนะทันที ถ้าไม่ นักฆ่าพลาดเป้า เครื่องหมายของช่องนั้นจะถูกเปิด และจบตาของคุณ - ความผิดพลาดที่แพงมาก",
+    s6h: "การแพ้และชนะ",
+    s6p1: "เกมจบทันทีที่มีคนลงมือสำเร็จ",
+    s6list: [
+      "<strong>ชนะ:</strong> ส่งนักฆ่าไปยังช่องที่ถูกต้องขณะที่เบาะแสทุกชิ้นตรงกัน ผู้เล่นคนนั้นคือผู้ชนะแห่งราตรี",
+      "<strong>พลาดเป้า:</strong> ถ้ามีเบาะแสใดไม่ตรง หรือช่องนั้นไม่ใช่คำตอบจริง การลงมือล้มเหลวและคุณเสียตาที่เหลือ ตาผ่านไปคนถัดไป",
+      "ไม่มีทางแพ้แบบอื่น - การพลาดเพียงทำให้เสียจังหวะและมอบข้อมูลให้คู่แข่ง",
+    ],
+    s7h: "ประเภทเบาะแส",
+    s7p1: "เบาะแสลับของคุณจะบอกเสมอว่าราชาปีศาจอาจอยู่ตรงไหน มีอยู่ไม่กี่รูปแบบ:",
+    clues: [
+      ["📏", "<b>ภายใน N ช่องจากสถานที่</b> - ปีศาจอยู่ภายใน N ก้าวจากภูมิประเทศ ราง หรือสิ่งก่อสร้างที่ระบุ (เช่น ภายใน 2 ช่องจากโรงไฟฟ้า)"],
+      ["🔀", "<b>ภายใน N ช่องจากที่หนึ่งหรืออีกที่</b> - เช่น ภายใน N ช่องจากสถานี หรือ หอนาฬิกา (วงกว้างขึ้น)"],
+      ["📍", "<b>อยู่บนภูมิประเทศแบบหนึ่ง</b> - ปีศาจอยู่บนภูมิประเทศที่ระบุ หรือหนึ่งในไม่กี่แบบที่ระบุ"],
+      ["🛤️", "<b>อยู่บนหรือใกล้ราง</b> - ปีศาจอยู่บนรางรถไฟ หรือภายใน N ช่องจากราง"],
+    ],
+    s8h: "เคล็ดลับสำหรับมือใหม่",
+    s8list: [
+      "ส่งสายสืบตั้งแต่เนิ่นๆ เครื่องหมายสาธารณะช่วยทุกคน แต่การอนุมานที่คุณคิดต่อเป็นของคุณคนเดียว",
+      "ในโหมดปิด สังเกตว่าคู่แข่งทดสอบช่องไหน ตัวเลือกของเขาแอบบอกว่าเขาอาจรู้อะไร",
+      "ช่องที่ไม่ผ่านเบาะแสแม้ชิ้นเดียว เป็นคำตอบไม่ได้ ตัดทิ้งในสมุด Companion ของคุณ",
+      "อย่าลงมือด้วยการเดา การพลาดทำให้เสียตาและบอกคู่แข่งว่าช่องนั้นผิด",
+      "จำกฎสิ่งก่อสร้างไว้: ช่องที่มีอาคารตัดออกจากที่ซ่อนได้เลย",
+    ],
+    back: "\u2190 กลับไปที่เกม",
+    foot: "The Dossier - เกมไขปริศนาบนกระดานหกเหลี่ยม สำหรับ 3 ถึง 5 คน",
+    facs: [
+      ["cw", "สมาคมเฟืองจักร", "อ่านเบาะแสจากท่อไอน้ำและรางเหล็กทั่วนคร"],
+      ["se", "คณะทรงญาณ", "สัมผัสลางร้ายจากสุสานเก่าและเข็มนาฬิกาที่หยุดเดิน"],
+      ["as", "กลุ่มเถ้าธุลี", "เค้นความจริงจากปีศาจที่จับเป็น ว่ามันซ่อนบนพื้นแบบไหน"],
+      ["la", "คณะตะเกียง", "รวบรวมเบาะแสจากเครือข่ายนักข่าวรอบหลักหมายเมือง"],
+      ["cr", "มงกุฎเหล็ก", "เฝ้าจับตาทุกชานชาลาและท่าเรือผ่านข่าวกรองของรัฐ"],
+    ],
+    terr: [
+      ["#6b4a2e", "ย่านโรงงาน"], ["#cdd2d6", "ตรอกหมอกควัน"], ["#a8d8a8", "สุสานเก่า"],
+      ["#e8b4c4", "สลัมร้าง"], ["#2a4a78", "ท่าเรือ"], ["#3a2c1a", "รางรถไฟ"],
+    ],
+  },
+};
+
+const KEY = "dossier_lang";
+function getLang(){ try { return localStorage.getItem(KEY) || "en"; } catch(e){ return "en"; } }
+function setLang(l){ try { localStorage.setItem(KEY, l); } catch(e){} }
+const $ = s => document.querySelector(s);
+
+function render(){
+  const lang = getLang();
+  const d = R[lang] || R.en;
+  document.querySelectorAll("[data-k]").forEach(el => {
+    const v = d[el.dataset.k];
+    if (typeof v === "string") el.innerHTML = v;
+  });
+  // factions
+  $("#facs").innerHTML = d.facs.map(f =>
+    '<div class="fac ' + f[0] + '"><div class="fn">' + f[1] + '</div><div class="fd">' + f[2] + '</div></div>').join("");
+  // terrain
+  $("#terr").innerHTML = d.terr.map(t =>
+    '<span class="t"><span class="sw" style="background:' + t[0] + '"></span>' + t[1] + '</span>').join("");
+  // snake steps
+  $("#s4steps").innerHTML = d.s4steps.map(s => '<li>' + s + '</li>').join("");
+  // win/lose list
+  $("#s6list").innerHTML = d.s6list.map(s => '<li>' + s + '</li>').join("");
+  // clue types
+  $("#clueGrid").innerHTML = d.clues.map(c =>
+    '<div class="clue-row"><span class="ic">' + c[0] + '</span><span class="tx">' + c[1] + '</span></div>').join("");
+  // tips
+  $("#s8list").innerHTML = d.s8list.map(s => '<li>' + s + '</li>').join("");
+  document.documentElement.lang = lang;
+  $("#langToggle").textContent = lang === "en" ? "TH" : "EN";
+  document.title = lang === "en" ? "The Dossier - How to Play" : "The Dossier - วิธีเล่น";
+}
+$("#langToggle").onclick = () => { setLang(getLang() === "en" ? "th" : "en"); render(); };
+render();
+</script>
+</body>
+</html>

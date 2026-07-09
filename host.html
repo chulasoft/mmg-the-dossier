@@ -15,6 +15,8 @@
   --ease-spring: cubic-bezier(0.2, 0.9, 0.3, 1.25);
   --ease-stamp: cubic-bezier(0.3, 1.4, 0.5, 1);
   --t-fast: 140ms; --t-base: 220ms; --t-slow: 550ms;
+  /* spacing scale, 8px base (see docs/UI-UX-REVIEW.md 3.1) */
+  --sp-half:4px; --sp-xs:6px; --sp-1:8px; --sp-2:16px; --sp-3:24px; --sp-4:40px; --sp-5:64px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:Georgia,'Times New Roman',serif;color:var(--ink);overflow:hidden;}
@@ -32,7 +34,7 @@ body{
 .btn-primary:hover{background:var(--red);}
 
 /* ── SELECT players ── */
-#sel{flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
+#sel{flex-direction:column;align-items:center;justify-content:center;padding:var(--sp-3);text-align:center;}
 .sel-kicker{font-size:0.7rem;letter-spacing:0.4em;color:var(--red);text-transform:uppercase;margin-bottom:10px;font-weight:700;}
 .sel-title{font-size:clamp(2.4rem,7vw,3.6rem);font-weight:900;margin-bottom:8px;text-shadow:0 2px 0 rgba(255,255,255,0.4);}
 .sel-rule{display:flex;align-items:center;gap:14px;margin:12px 0 30px;width:min(440px,80vw);}
@@ -53,7 +55,7 @@ body{
 /* ── BRIEFING ── */
 #brief{flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;}
 .brief-card{max-width:680px;width:100%;background:var(--paper2);border:1px solid var(--ink);border-top:4px solid var(--red);padding:32px 38px;box-shadow:4px 4px 0 rgba(36,28,18,0.18);animation:fadeUp 0.6s ease both;}
-.brief-kicker{font-size:0.66rem;letter-spacing:0.3em;color:var(--red);text-transform:uppercase;font-weight:700;margin-bottom:10px;}
+.brief-kicker{font-size:0.7rem;letter-spacing:0.4em;color:var(--red);text-transform:uppercase;font-weight:700;margin-bottom:10px;}
 .brief-title{font-size:1.7rem;font-weight:800;margin-bottom:6px;}
 .brief-sub{font-size:0.72rem;color:var(--ink3);font-style:italic;margin-bottom:18px;}
 .brief-story{font-size:0.96rem;line-height:1.9;color:var(--ink);min-height:8em;text-align:left;}
@@ -66,8 +68,8 @@ body{
 .brief-go{margin-top:24px;}
 
 /* ── QR distribute ── */
-#qr{flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
-.qr-kicker{font-size:0.66rem;letter-spacing:0.3em;color:var(--red);text-transform:uppercase;font-weight:700;margin-bottom:6px;}
+#qr{flex-direction:column;align-items:center;justify-content:center;padding:var(--sp-3);text-align:center;}
+.qr-kicker{font-size:0.7rem;letter-spacing:0.4em;color:var(--red);text-transform:uppercase;font-weight:700;margin-bottom:6px;}
 .qr-title{font-size:1.5rem;font-weight:800;margin-bottom:4px;}
 .qr-sub{font-size:0.74rem;color:var(--ink2);font-style:italic;margin-bottom:20px;}
 .qr-box{background:#fff;border:1px solid var(--ink);padding:16px;box-shadow:3px 3px 0 rgba(36,28,18,0.18);}
@@ -180,17 +182,20 @@ body{
 @keyframes waxFade{0%{opacity:0;}20%{opacity:1;}80%{opacity:1;}100%{opacity:0;}}
 
 @keyframes pickPulse{0%,100%{box-shadow:inset 0 0 0 3px rgba(180,140,60,0.15);}50%{box-shadow:inset 0 0 0 4px rgba(200,150,70,0.5);}}
+/* pickable base tiles gently warm-pulse so the eye reads them as live (UI-UX 2.1) */
+.cellpick:not(.cell-hover){animation:tilePickBreath 1.6s ease-in-out infinite;}
+@keyframes tilePickBreath{0%,100%{stroke:#5a4632;stroke-width:0.7;}50%{stroke:#c8964a;stroke-width:1.4;}}
 .pick-ribbon{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:6;
   background:var(--ink);color:var(--paper);font-size:0.78rem;font-weight:700;padding:6px 16px;border-radius:20px;
   box-shadow:0 3px 10px rgba(36,28,18,0.3);display:none;align-items:center;gap:8px;}
 .pick-ribbon.show{display:flex;animation:ribbonIn 0.3s ease both;}
 @keyframes ribbonIn{from{opacity:0;transform:translateX(-50%) translateY(-8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
-.pick-ribbon .pr-cancel{margin-left:4px;border:1px solid rgba(233,225,205,0.4);background:none;color:var(--paper);font-family:Georgia,serif;font-size:0.66rem;padding:2px 9px;border-radius:12px;cursor:pointer;pointer-events:auto;}
+.pick-ribbon .pr-cancel{margin-left:4px;border:1px solid rgba(233,225,205,0.4);background:none;color:var(--paper);font-family:Georgia,serif;font-size:0.66rem;padding:2px 9px;border-radius:2px;cursor:pointer;pointer-events:auto;}
 .pick-ribbon .pr-cancel:hover{background:rgba(233,225,205,0.15);}
 
 
 /* ── OVERLAY (action picker / result) ── */
-.overlay{position:fixed;inset:0;background:rgba(20,14,8,0.6);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:24px;z-index:60;}
+.overlay{position:fixed;inset:0;background:rgba(20,14,8,0.6);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:var(--sp-3);z-index:60;}
 .overlay.show{display:flex;animation:fadeIn 0.2s ease both;}
 .modal{background:var(--paper);border:1px solid var(--ink);border-top:4px solid var(--red);max-width:520px;width:100%;padding:24px 26px;box-shadow:4px 6px 0 rgba(36,28,18,0.25);animation:popIn 0.25s var(--ease-spring) both;}
 .modal-head{font-size:1.2rem;font-weight:800;margin-bottom:4px;}
@@ -205,7 +210,8 @@ body{
 .result-splash{position:fixed;inset:0;background:rgba(20,14,8,0.82);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:80;}
 .result-splash.show{display:flex;animation:fadeIn 0.25s ease both;}
 .result-card{text-align:center;animation:popIn 0.4s var(--ease-spring) both;}
-.result-glyph{font-size:5rem;margin-bottom:12px;animation:demonThrob 2.4s ease-in-out infinite;}
+.result-glyph{font-size:5rem;margin-bottom:12px;animation:glyphLand 0.6s var(--ease-stamp) both,demonThrob 2.4s 0.6s ease-in-out infinite;}
+@keyframes glyphLand{0%{opacity:0;transform:scale(0.2);}45%{opacity:1;transform:scale(0.2);}70%{transform:scale(1.25);}100%{transform:scale(1);}}
 .result-epilogue{font-size:0.92rem;color:#cdb98a;font-style:italic;margin-top:14px;max-width:420px;line-height:1.6;animation:fadeIn 0.8s 0.4s ease both;}
 .ember{position:absolute;top:-12px;border-radius:50%;pointer-events:none;opacity:0.9;animation:emberFall linear both;}
 @keyframes emberFall{0%{transform:translateY(-12px) translateX(0) rotate(0);opacity:0;}12%{opacity:0.95;}100%{transform:translateY(105vh) translateX(var(--drift)) rotate(220deg);opacity:0;}}

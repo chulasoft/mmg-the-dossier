@@ -26,7 +26,8 @@ The choice is remembered per device.
 
 | File | Role |
 |---|---|
-| `index.html` | Landing page: choose Host or Companion, link to Lab |
+| `index.html` | Landing page: choose Host or Companion, link to Lab and Rules |
+| `rules.html` | Bilingual how-to-play rulebook (linked from the home page) |
 | `host.html` | Game controller / shared board. Holds all game state |
 | `companion.html` | Mobile "smart notebook" - shows one player's own lead, auto-fades impossible tiles |
 | `lab.html` | Standalone map-building tool (compiled from `src/puzzle-lab.jsx`) |

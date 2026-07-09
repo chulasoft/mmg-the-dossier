@@ -664,6 +664,7 @@ const CSS = `
   --ease-spring: cubic-bezier(0.2, 0.9, 0.3, 1.25);
   --ease-stamp: cubic-bezier(0.3, 1.4, 0.5, 1);
   --t-fast: 140ms; --t-base: 220ms; --t-slow: 550ms;
+  --sp-half:4px; --sp-xs:6px; --sp-1:8px; --sp-2:16px; --sp-3:24px; --sp-4:40px; --sp-5:64px;
   min-height:100vh; background:
     repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(120,90,50,0.012) 3px, rgba(120,90,50,0.012) 4px),
     radial-gradient(ellipse 90% 60% at 50% 0%, #efe8d6, #e4dabf);

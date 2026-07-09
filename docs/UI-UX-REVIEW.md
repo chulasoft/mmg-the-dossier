@@ -1,16 +1,17 @@
 # The Dossier - UI/UX & Animation Review
 
-> **Implementation status (updated):** Items **1.1, 1.2, 1.3, 1.5** and the
-> placement half of **3.3** are now DONE in the shipped files. The shared motion
-> token system (`--ease-out/spring/stamp`, `--t-fast/base/slow`) is live in all
-> four surfaces and every animation/transition routes through it. `index.html`
-> now has the staggered entrance, tactile `:active` states, idle icon breathing,
-> `:focus-visible`, and a reduced-motion block. `:focus-visible` was added to
-> host/companion/lab, and lab adopted the tokens (its `labTile` cascade now
-> matches host `tileDrop` timing). Remaining open items for the next model:
-> **1.4** (header component extraction), **2.1/2.2** (host & companion
-> connective-tissue motion), **3.1/3.2** (spacing + shape locks). See per-item
-> notes below.
+> **Implementation status (updated):** Items **1.1, 1.2, 1.3, 1.4, 1.5, 2.1,
+> 2.2, 3.1, 3.2** and the placement half of **3.3** are now DONE - the full
+> review has been implemented. The shared motion token system and an 8px spacing
+> scale (`--sp-1`..`--sp-5`) are live in all four surfaces. Structural padding is
+> tokenized; tight-UI micro-spacing (2-7px) is intentionally left off-grid for
+> optical fit. **Companion is now 2D-only** (the 3D lite profile was removed by
+> product decision: WebGL context limits made mixed 2D/3D appear across devices;
+> 3D now lives only in host). Open items that remain are genuinely optional
+> polish (1.4 could go further with a true shared component if the files are ever
+> merged into a build pipeline). See per-item notes below.
+
+
 
 A design audit of the four surfaces (`index.html`, `host.html`, `companion.html`,
 `lab.html`) with concrete, prioritized recommendations for the next model to
