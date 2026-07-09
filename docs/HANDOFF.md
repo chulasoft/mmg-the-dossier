@@ -41,7 +41,7 @@ maps.json       preset 16 ชุด (flat array) ทั้ง host+companion fet
 | viewport | ใช้ 100dvh เท่านั้น (ห้าม 100vh) |
 
 **กฎ copy (จาก design-taste-frontend skill ที่ audit ผ่านแล้ว):**
-- **ห้าม em-dash (—) และ en-dash (–) เด็ดขาด** ทุกไฟล์ตอนนี้ = 0 ห้ามใส่กลับ
+- **ห้าม em-dash (-) และ en-dash (–) เด็ดขาด** ทุกไฟล์ตอนนี้ = 0 ห้ามใส่กลับ
 - middle-dot (·) สูงสุด 1 ต่อบรรทัดข้อความ
 - ภาษาไทยเป็นหลัก อังกฤษเฉพาะศัพท์เทคนิค
 
@@ -59,7 +59,7 @@ maps.json       preset 16 ชุด (flat array) ทั้ง host+companion fet
 
 ---
 
-## 4. บั๊กที่เคยเจอ (ห้ามทำซ้ำ — นี่คือ pattern ที่พังมาแล้วจริง)
+## 4. บั๊กที่เคยเจอ (ห้ามทำซ้ำ - นี่คือ pattern ที่พังมาแล้วจริง)
 
 1. **keyframe ที่มี opacity + `both` จะล็อกค่า opacity ทับ inline opacity ของ element** → companion เคยพังเพราะ tileDrop มี opacity:0→1 ทับช่องเทา 0.18 · กฎ: keyframe บนกระดาน **animate เฉพาะ transform** ปล่อย opacity ให้ค่า inline คุม
 2. **`G.lastMarkCell` ต้องเคลียร์เป็น null ก่อน renderBoard ทุกครั้งที่ไม่ใช่การลงหมากจริง** (เริ่ม action, เปลี่ยนเทิร์น) ไม่งั้น marker เก่าเล่น drop animation ซ้ำ = กระพริบ · ตอนนี้เคลียร์ 3 จุด: resolveInvestigate ก่อนบิน, resolveStrike ก่อนดาบ, nextTurn
@@ -87,23 +87,23 @@ maps.json       preset 16 ชุด (flat array) ทั้ง host+companion fet
 
 > ✅ อัปเดต: backlog ด้านล่างทำครบทุกข้อแล้ว (รอบ Fable) รายละเอียดสิ่งที่ทำจริงอยู่ท้ายหัวข้อ
 
-### 🔴 P1 ผลกระทบสูง — ✅ เสร็จ
+### 🔴 P1 ผลกระทบสูง - ✅ เสร็จ
 1. ✅ **เสียง WebAudio** โมดูล `SFX` สังเคราะห์ในโค้ด (ไม่มีไฟล์ external): place(ไม้เคาะ) wing(ปีก) clash(โลหะ) paper(กระดาษ) tick win fail stamp · ปุ่ม toggle 🔇/🔊 มุมขวาล่าง default ปิด · unlock ctx ด้วย pointerdown แรก
 2. ✅ **Companion idle + haptic** navigator.vibrate(9) ตอนแตะ mark · crestBreath หายใจบนไอคอนสมาคม · intelGlow เดิม
 3. ✅ **ตราครั่งคั่น phase** `waxTransition(glyph, cb)` overlay ตราครั่งประทับ 0.9s คั่น briefing→QR (📜) และ QR→กระดาน (🗺️) + เสียง stamp
 
-### 🟡 P2 — ✅ เสร็จ
+### 🟡 P2 - ✅ เสร็จ
 4. ✅ **Log highlight** entry ล่าสุด class `.fresh` เรืองทอง 2s แล้วจาง (logFlash)
 5. ✅ **Snake arrow + reverse banner** tbSnake แสดง ⇢/⇠ ตามทิศ · ตอนกลับทิศ announce "ย้อนลำดับงูเลื้อย"
 6. ✅ **Epilogue + confetti** const EPILOGUE 5 สมาคม แสดงใต้ result · spawnEmbers() เถ้าถ่านทอง/แดง 34 ชิ้นหล่น (emberFall)
 7. ✅ **Lab cascade** remount board ด้วย key={genId} (เพิ่มตอน generate เท่านั้น ไม่ใช่ reClue) · labTile transform-only (กันชน dim opacity)
 
-### 🟢 P3 — ✅ เสร็จ
+### 🟢 P3 - ✅ เสร็จ
 8. ✅ ลบ dead keyframes: birdFlap cellPress daggerFall glowPulse markerPop
 9. ✅ ปุ่ม side-action hover: 🕵️ เอียง -12deg, 🗡️ ยกขึ้น -6px
 10. ✅ Companion first-open: highlightPossibleOnce() outline ทองรอบช่องที่เป็นไปได้ 1 รอบ (possibleHint)
 
-### รอบถัดไป (ยังไม่ทำ — ไอเดียต่อยอด)
+### รอบถัดไป (ยังไม่ทำ - ไอเดียต่อยอด)
 - เสียงใน companion (ตอนนี้มีแค่ host + haptic)
 - particle ควันตอนแพ้/ลงดาบพลาด
 - นก 2 หัวเป็น sprite จริง (ตอนนี้ใช้ 🕊️)

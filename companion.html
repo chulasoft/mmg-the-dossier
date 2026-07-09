@@ -9,6 +9,11 @@
 :root{
   --paper:#e9e1cd; --paper2:#e2d8bf; --ink:#241c12; --ink2:#5a4c38; --ink3:#8a7a62;
   --rule:#c4b596; --red:#9a2a1e; --sepia:#8a6a3a;
+  /* shared motion system (see docs/UI-UX-REVIEW.md 1.1/1.2) */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
+  --ease-spring: cubic-bezier(0.2, 0.9, 0.3, 1.25);
+  --ease-stamp: cubic-bezier(0.3, 1.4, 0.5, 1);
+  --t-fast: 140ms; --t-base: 220ms; --t-slow: 550ms;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);height:100%;overflow:hidden;}
@@ -45,7 +50,7 @@ body{
 
 /* map hero: fills remaining space */
 .map-stage{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;position:relative;}
-.map-wrap{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;animation:scaleIn 0.5s 0.15s cubic-bezier(0.2,0.9,0.3,1) both;}
+.map-wrap{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;animation:scaleIn 0.5s 0.15s var(--ease-out) both;}
 .map-wrap svg{display:block;width:100%;height:100%;}
 .map-wrap canvas{display:block;width:100%;height:100%;touch-action:none;}
 .rotate-hint{font-size:0.58rem;color:var(--ink3);font-style:italic;margin-top:4px;flex-shrink:0;opacity:0.75;}
@@ -60,14 +65,14 @@ body{
 .markkey i{font-style:normal;font-weight:800;font-size:0.78rem;}
 .mk-c{color:#3a6a3a;}.mk-x{color:#9a2a1e;}.mk-q{color:#6a4a7a;}
 .tools-btns{display:flex;gap:7px;flex-shrink:0;}
-.tool-btn{font-family:Georgia,serif;font-size:0.72rem;font-weight:700;padding:8px 12px;border:1px solid var(--ink2);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px;transition:all 0.14s;}
+.tool-btn{font-family:Georgia,serif;font-size:0.72rem;font-weight:700;padding:8px 12px;border:1px solid var(--ink2);background:var(--paper);color:var(--ink);cursor:pointer;border-radius:2px;transition:all var(--t-fast);}
 .tool-btn:active{transform:scale(0.95);background:var(--ink);color:var(--paper);}
 .tool-btn.notes-btn{border-color:var(--sepia);color:var(--sepia);}
 
 /* bottom sheets (notes / legend) */
 .sheet-overlay{position:fixed;inset:0;background:rgba(20,14,8,0.5);backdrop-filter:blur(2px);display:none;align-items:flex-end;justify-content:center;z-index:50;}
 .sheet-overlay.show{display:flex;animation:fadeIn 0.2s ease both;}
-.sheet{background:var(--paper);border:1px solid var(--ink);border-bottom:none;border-radius:10px 10px 0 0;width:100%;max-width:560px;padding:16px 18px 24px;box-shadow:0 -6px 24px rgba(36,28,18,0.3);animation:sheetUp 0.28s cubic-bezier(0.2,0.9,0.3,1) both;max-height:80dvh;overflow-y:auto;}
+.sheet{background:var(--paper);border:1px solid var(--ink);border-bottom:none;border-radius:10px 10px 0 0;width:100%;max-width:560px;padding:16px 18px 24px;box-shadow:0 -6px 24px rgba(36,28,18,0.3);animation:sheetUp var(--t-base) var(--ease-out) both;max-height:80dvh;overflow-y:auto;}
 .sheet-head{display:flex;align-items:center;justify-content:space-between;font-size:0.92rem;font-weight:800;margin-bottom:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;}
 .sheet-close{border:none;background:none;font-size:1.1rem;cursor:pointer;color:var(--ink2);padding:2px 6px;}
 .sheet textarea{width:100%;min-height:140px;font-family:Georgia,serif;font-size:0.9rem;padding:11px 13px;border:1px solid var(--ink);background:var(--paper2);color:var(--ink);resize:vertical;border-radius:3px;line-height:1.5;}
@@ -90,11 +95,12 @@ body{
 @keyframes possibleHint{0%{opacity:0;}25%{opacity:0.9;}55%{opacity:0.5;}100%{opacity:0;}}
 @keyframes crestBreath{0%,100%{box-shadow:0 0 0 rgba(154,42,30,0);}50%{box-shadow:0 0 14px rgba(154,42,30,0.12);}}
 .crest-icon{animation:crestBreath 4s ease-in-out infinite;border-radius:50%;}
-.cell{transition:opacity 0.18s ease;}
+.cell{transition:opacity var(--t-base) var(--ease-out);}
 .cell:active{opacity:0.6 !important;}
 /* hide rotate hint in landscape (map already big) */
 @media(orientation:landscape){.rotate-hint{display:none;} .ts-intel{margin-top:4px;padding-top:4px;}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms !important;animation-iteration-count:1 !important;}}
+:focus-visible{outline:2px solid var(--sepia);outline-offset:2px;}
 </style>
 
 </head>
@@ -519,7 +525,7 @@ function renderMap() {
     const faded = !cell._possible;       // auto-fade impossible-by-my-clue
     const op = faded ? 0.18 : 1;
     let st = 'cursor:pointer';
-    if (cascade) { const d = ((cell.col + cell.row) * 0.022).toFixed(3); st += ';transform-box:fill-box;transform-origin:center;animation:tileDrop 0.4s cubic-bezier(0.2,0.9,0.3,1.2) both;animation-delay:' + d + 's'; }
+    if (cascade) { const d = ((cell.col + cell.row) * 0.022).toFixed(3); st += ';transform-box:fill-box;transform-origin:center;animation:tileDrop 0.4s var(--ease-spring) both;animation-delay:' + d + 's'; }
     s += '<polygon points="' + pts + '" fill="' + t.fill + '" stroke="#5a4632" stroke-width="0.6" opacity="' + op + '" data-id="' + cell.id + '" class="cell" style="' + st + '"/>';
   }
   if (cascade) COMP_FIRST = false;
@@ -542,7 +548,7 @@ function renderMap() {
     if (!m) continue;
     const pos = hpos(cell.col, cell.row);
     const fresh = cell.id === LASTMARK;
-    const anim = fresh ? ' style="transform-box:fill-box;transform-origin:center;animation:markDrop 0.42s cubic-bezier(0.2,0.8,0.3,1.3) both;pointer-events:none"' : ' style="pointer-events:none"';
+    const anim = fresh ? ' style="transform-box:fill-box;transform-origin:center;animation:markDrop 0.42s var(--ease-spring) both;pointer-events:none"' : ' style="pointer-events:none"';
     if (m === "check") {
       s += '<text x="' + pos.x + '" y="' + (pos.y + 1.5) + '" text-anchor="middle" dominant-baseline="middle" font-size="15" fill="#3a6a3a" font-weight="bold"' + anim + '>✓</text>';
     } else if (m === "cross") {
