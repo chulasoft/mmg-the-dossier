@@ -563,7 +563,7 @@ export default function SteamGazetteLab() {
             </div>
           )}
           {library.length > 0 && (
-            <div className="export-hint">บันทึกเป็น <b>maps.json</b> วางในโฟลเดอร์เดียวกับ host.html / companion.html แล้วลบบล็อก DEMO MAPS ออกตอน deploy</div>
+            <div className="export-hint">บันทึกเป็น <b>maps.json</b> แล้ววางไว้ที่ <b>assets/data/maps.json</b> จากนั้น deploy ได้เลย</div>
           )}
 
           <div className="archive-list scroll5">
