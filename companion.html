@@ -4,7 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>The Dossier · Companion</title>
-<script src="./i18n.js"></script>
+<script src="./assets/js/i18n.js"></script>
+<script src="./assets/vendor/anime.min.js"></script>
+<script src="./assets/js/fx.js"></script>
 <style>
 :root{
   --paper:#e9e1cd; --paper2:#e2d8bf; --ink:#241c12; --ink2:#5a4c38; --ink3:#8a7a62;
@@ -248,7 +250,7 @@ if (isNaN(mapIdx) || isNaN(pIdx)) {
     if (pIdx < 0 || pIdx >= preset.factions.length) return fail(I18N.t("playerNotFound"));
     boot(preset, pIdx);
   };
-  fetch("./maps.json")
+  fetch("./assets/data/maps.json")
     .then(r => r.json())
     .then(useMaps)
     .catch(() => fail(I18N.t("compLoadFail")));
@@ -334,6 +336,14 @@ function boot(preset, pi) {
 
   $("loading").classList.add("hidden");
   $("app").classList.remove("hidden");
+
+  // entrance: the notebook "opens" - the crest stamps in like a wax seal, the
+  // board + toolbar rise in, then a soft pulse draws the eye to the secret lead.
+  if (window.FX) {
+    FX.stamp("#crest", { from: 0.9, rotate: -3, duration: 500 });
+    FX.entrance(".map-stage, .toolbar", { rise: 16, stagger: 90, delay: 140 });
+    setTimeout(function () { FX.pulse("#intelText", { peak: 1.05 }); }, 560);
+  }
 
   // one-time teaching cue: pulse the cells your intel still allows
   setTimeout(highlightPossibleOnce, 700);

@@ -4,7 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>The Dossier</title>
-<script src="./i18n.js"></script>
+<script src="./assets/js/i18n.js"></script>
+<script src="./assets/vendor/anime.min.js"></script>
+<script src="./assets/js/fx.js"></script>
 <style>
   :root{
     --paper:#e9e1cd; --paper2:#e2d8bf; --ink:#241c12; --ink2:#5a4c38; --ink3:#8a7a62;
@@ -38,12 +40,13 @@
   .rule:before,.rule:after{content:"";flex:1;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);}
   .rule span{font-size:0.64rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;}
   .sub{font-size:0.86rem;color:var(--ink2);font-style:italic;line-height:1.7;margin:18px auto 34px;max-width:440px;animation-delay:300ms;}
-  .choices{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;}
+  .choices{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;perspective:900px;}
   .choice{
     flex:1;min-width:200px;max-width:260px;
     background:var(--paper2);border:1px solid var(--ink);border-top:4px solid var(--ink);
     padding:28px 22px;cursor:pointer;text-decoration:none;color:var(--ink);
     box-shadow:3px 3px 0 rgba(36,28,18,0.16);transition:transform var(--t-fast) var(--ease-out),box-shadow var(--t-fast) var(--ease-out);display:block;
+    transform-style:preserve-3d;will-change:transform;
   }
   .choice.host{animation-delay:380ms;}
   .choice.companion{animation-delay:460ms;}
@@ -121,6 +124,27 @@ document.getElementById("langToggle").onclick = () => {
   applyStaticI18N();
 };
 applyStaticI18N();
+
+// game-feel: magnetic 3D tilt + press feedback on the two big choices.
+// Pointer-only and skipped entirely under prefers-reduced-motion (FX guards it).
+(function () {
+  if (!window.FX || FX.reduce()) return;
+  document.querySelectorAll(".choice").forEach(function (card) {
+    var icon = card.querySelector(".choice-icon");
+    card.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      var r = card.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = "translateY(-4px) rotateX(" + (-py * 6).toFixed(2) + "deg) rotateY(" + (px * 6).toFixed(2) + "deg)";
+    });
+    card.addEventListener("pointerleave", function () { card.style.transform = ""; });
+    card.addEventListener("pointerdown", function () { FX.pulse(icon, { peak: 1.16 }); });
+  });
+  // press feedback on the language toggle
+  var lt = document.getElementById("langToggle");
+  if (lt) lt.addEventListener("pointerdown", function () { FX.pulse(lt, { peak: 1.12 }); });
+})();
 </script>
 </body>
 </html>

@@ -24,15 +24,41 @@ The choice is remembered per device.
 
 ## File map
 
-| File | Role |
+Entry pages live at the repository root (so deploys serve them at clean URLs);
+everything shared lives under `assets/`.
+
+```
+the-dossier/
+  index.html            Landing page: choose Host or Companion; links Rules + Lab
+  host.html             Game controller + shared board (holds all game state)
+  companion.html        Mobile "smart notebook": one player's private lead + board
+  rules.html            Bilingual how-to-play rulebook (self-contained)
+  lab.html              Map-building tool for game masters (compiled from src/)
+  assets/
+    js/
+      i18n.js           Shared EN/TH dictionary + clue-label renderer
+      fx.js             Reduced-motion-aware anime.js effect helpers (FX.*)
+    vendor/
+      anime.min.js      anime.js v3 (vendored, no CDN)
+    data/
+      maps.json         16 ready-to-play puzzle presets (Host + Companion fetch this)
+  src/
+    puzzle-lab.jsx      React source for lab.html (edit this, then rebuild)
+  docs/                 Handoffs + design notes
+  README.md
+```
+
+| Path | Role |
 |---|---|
 | `index.html` | Landing page: choose Host or Companion, link to Lab and Rules |
 | `rules.html` | Bilingual how-to-play rulebook (linked from the home page) |
 | `host.html` | Game controller / shared board. Holds all game state |
 | `companion.html` | Mobile "smart notebook" - shows one player's own lead, auto-fades impossible tiles |
 | `lab.html` | Standalone map-building tool (compiled from `src/puzzle-lab.jsx`) |
-| `maps.json` | 16 ready-to-play map presets. Host and Companion both fetch this file directly |
-| `i18n.js` | Shared English/Thai text dictionary + clue-label renderer, loaded by `index.html`, `host.html`, and `companion.html` |
+| `assets/data/maps.json` | 16 ready-to-play map presets. Host and Companion both fetch this file directly |
+| `assets/js/i18n.js` | Shared English/Thai text dictionary + clue-label renderer, loaded by `index.html`, `host.html`, and `companion.html` |
+| `assets/js/fx.js` | Small reduced-motion-aware wrapper over anime.js exposing reusable game-feel effects |
+| `assets/vendor/anime.min.js` | Vendored anime.js (v3), no external CDN dependency |
 | `src/puzzle-lab.jsx` | React source for the Lab (bundled into `lab.html` - see **Rebuilding the Lab** below) |
 | `docs/HANDOFF.md` | Engineering handoff: architecture, known bug patterns, build pipeline, backlog |
 | `docs/PLAN-3D.md` | Implementation plan for the Three.js 3D board (host.html already uses it, with an SVG fallback if WebGL is unavailable) |
@@ -71,7 +97,7 @@ then open `http://localhost:.../index.html`.
    `players`, `factions`, `board`, `answerCell`, and `clues[]` with a
    `tplKey` + `params` pair that the game re-renders live in the player's
    chosen language - not a baked string).
-3. Replace `maps.json` at the repo root with the exported file and redeploy.
+3. Replace `assets/data/maps.json` with the exported file and redeploy.
 
 The 16 presets shipped in this repo were generated the same way (10× 3-player,
 5× 4-player, 1× 5-player) and already respect the rule that the Demon King is
@@ -80,7 +106,7 @@ never on a tile with a structure (Clock Tower / Station / Power Plant) - see
 
 ## Editing wording
 
-All player-facing English/Thai strings live in `i18n.js` (`UI`, `FACTION_I18N`,
+All player-facing English/Thai strings live in `assets/js/i18n.js` (`UI`, `FACTION_I18N`,
 `EPILOGUE`, `STORY_OPEN`/`STORY_CLOSE`, `CLUE_TPL`). Edit a value there and it
 updates both languages consistently - no need to touch `host.html` or
 `companion.html` directly for copy changes. The Lab (`src/puzzle-lab.jsx`)
