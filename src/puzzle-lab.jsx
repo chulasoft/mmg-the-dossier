@@ -344,6 +344,10 @@ export default function SteamGazetteLab() {
   const [library, setLibrary] = useState([]);
   const [failMsg, setFailMsg] = useState(null);
   const [filter, setFilter] = useState(null); // {players, tier}
+  const [importMsg, setImportMsg] = useState(null);
+  const [fileHandle, setFileHandle] = useState(null); // File System Access handle, if connected
+  const fileInputRef = useRef(null);
+  const canFSAccess = "showOpenFilePicker" in window;
   const [codexPopup, setCodexPopup] = useState(null);
   const [genId, setGenId] = useState(0);
   const stampKey = useRef(0);
@@ -373,11 +377,11 @@ export default function SteamGazetteLab() {
     if (!puzzle) return;
     setLibrary(l => [...l, serialize(cells, puzzle, players)]);
   }
-  function exportJSON() {
-    // ส่งออกเป็น flat array รูปแบบเดียวกับ maps.json ที่ host/companion อ่าน
+  function buildExportPresets() {
+    // flat array รูปแบบเดียวกับ maps.json ที่ host/companion อ่าน
     // เรียงตามจำนวนผู้เล่น (3→4→5) แล้วใส่ index 0..N + id = map_NN
     const ordered = [...library].sort((a, b) => a.players - b.players);
-    const presets = ordered.map((e, i) => ({
+    return ordered.map((e, i) => ({
       id: `map_${String(i).padStart(2, "0")}`,
       index: i,
       players: e.players,
@@ -390,11 +394,91 @@ export default function SteamGazetteLab() {
       answerCell: e.answerCell,
       clues: e.clues,
     }));
+  }
+  function exportJSON() {
+    const presets = buildExportPresets();
     const blob = new Blob([JSON.stringify(presets, null, 2)], { type: "application/json" });
     const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `maps.json` });
     a.click();
   }
   function removeFromLib(id) { setLibrary(l => l.filter(e => e.id !== id)); }
+
+  // ── recall a previously exported maps.json into the library ──────────
+  function toLibraryEntry(preset, i) {
+    return {
+      id: preset.id || `import_${Date.now()}_${i}`,
+      players: preset.players,
+      factions: preset.factions || preset.clues.map(c => c.faction),
+      clueTier: preset.clueTier,
+      result: preset.result,
+      fairness: preset.fairness,
+      avgPct: preset.avgPct,
+      board: preset.board,
+      answerCell: preset.answerCell,
+      clues: preset.clues,
+    };
+  }
+  function mergeIntoLibrary(presets, { replace = false } = {}) {
+    if (!Array.isArray(presets) || !presets.length) return 0;
+    const entries = presets.map(toLibraryEntry);
+    if (replace) { setLibrary(entries); return entries.length; }
+    const seen = new Set(library.map(e => e.id));
+    const add = entries.filter(e => !seen.has(e.id));
+    if (add.length) setLibrary(l => [...l, ...add]);
+    return add.length;
+  }
+
+  // auto-recall: on first load, pull in whatever was last exported to
+  // assets/data/maps.json so the archive doesn't start empty every session.
+  useEffect(() => {
+    fetch("./assets/data/maps.json")
+      .then(r => (r.ok ? r.json() : Promise.reject()))
+      .then(presets => {
+        const n = mergeIntoLibrary(presets, { replace: true });
+        if (n) setImportMsg(`โหลดฉบับเดิมจาก maps.json เข้าคลังแล้ว ${n} ฉบับ`);
+      })
+      .catch(() => {}); // no existing file yet - start with an empty archive
+  }, []);
+
+  // manual import: works in every browser, merges by id (won't wipe new work)
+  function importFile(e) {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    file.text().then(txt => {
+      try {
+        const n = mergeIntoLibrary(JSON.parse(txt), { replace: false });
+        setImportMsg(n ? `นำเข้าเพิ่ม ${n} ฉบับ` : "ไฟล์นี้ไม่มีฉบับใหม่ (ซ้ำกับที่มีอยู่ทั้งหมด)");
+      } catch (err) { setImportMsg("อ่านไฟล์ไม่ได้ ตรวจสอบว่าเป็น maps.json ที่ถูกต้อง"); }
+    });
+  }
+
+  // File System Access API (Chromium): connect once, then save writes straight
+  // back to that file - no repeated download + manual copy needed.
+  async function connectFile() {
+    try {
+      const [handle] = await window.showOpenFilePicker({
+        types: [{ description: "maps.json", accept: { "application/json": [".json"] } }],
+      });
+      const perm = await handle.requestPermission({ mode: "readwrite" });
+      if (perm !== "granted") { setImportMsg("ไม่ได้รับสิทธิ์เขียนไฟล์ ลองใหม่อีกครั้ง"); return; }
+      const file = await handle.getFile();
+      mergeIntoLibrary(JSON.parse(await file.text()), { replace: true });
+      setFileHandle(handle);
+      setImportMsg(`เชื่อมไฟล์ "${handle.name}" แล้ว - ปุ่ม "บันทึกทับไฟล์" จะเขียนกลับไฟล์นี้โดยตรง`);
+    } catch (err) {
+      if (err && err.name !== "AbortError") setImportMsg("เชื่อมไฟล์ไม่สำเร็จ (ไฟล์อาจไม่ใช่ maps.json ที่ถูกต้อง)");
+    }
+  }
+  async function saveToFile() {
+    if (!fileHandle) return;
+    try {
+      const writable = await fileHandle.createWritable();
+      await writable.write(JSON.stringify(buildExportPresets(), null, 2));
+      await writable.close();
+      setImportMsg(`บันทึกทับ "${fileHandle.name}" แล้ว (${library.length} ฉบับ)`);
+    } catch (err) { setImportMsg("บันทึกไฟล์ไม่สำเร็จ ลองส่งออกเป็นไฟล์ดาวน์โหลดแทน"); }
+  }
 
   const fairnessPct = puzzle ? Math.round(puzzle.fairness * 100) : 0;
   const fairColor = !puzzle ? "#8a7a62" : fairnessPct >= 80 ? "#4a7c3a" : fairnessPct >= 60 ? "#9a7a2a" : "#9a2a1e";
@@ -531,6 +615,15 @@ export default function SteamGazetteLab() {
         {/* RIGHT archive */}
         <div className="col col-archive">
           <div className="col-head">แฟ้มจดหมายเหตุ ({library.length})</div>
+
+          <div className="archive-tools">
+            <button className="btn btn-ghost mini" onClick={() => fileInputRef.current && fileInputRef.current.click()}>📂 นำเข้า maps.json</button>
+            {canFSAccess && (fileHandle
+              ? <button className="btn btn-ghost mini" onClick={saveToFile}>💾 บันทึกทับไฟล์</button>
+              : <button className="btn btn-ghost mini" onClick={connectFile}>🔗 เชื่อมไฟล์ maps.json</button>)}
+            <input ref={fileInputRef} type="file" accept="application/json,.json" style={{ display: "none" }} onChange={importFile} />
+          </div>
+          {importMsg && <div className="export-hint">{importMsg}</div>}
 
           {/* matrix */}
           <div className="matrix">

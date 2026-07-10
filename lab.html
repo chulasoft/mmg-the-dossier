@@ -296,18 +296,12 @@ c,!1,d,e);a[Ja]=b.current;sc(8===a.nodeType?a.parentNode:a);return new Xf(b)};Q.
 var d=null!=c&&c.hydratedSources||null,e=!1,f="",g=aj;null!==c&&void 0!==c&&(!0===c.unstable_strictMode&&(e=!0),void 0!==c.identifierPrefix&&(f=c.identifierPrefix),void 0!==c.onRecoverableError&&(g=c.onRecoverableError));b=Wi(b,null,a,1,null!=c?c:null,e,!1,f,g);a[Ja]=b.current;sc(a);if(d)for(a=0;a<d.length;a++)c=d[a],e=c._getVersion,e=e(c._source),null==b.mutableSourceEagerHydrationData?b.mutableSourceEagerHydrationData=[c,e]:b.mutableSourceEagerHydrationData.push(c,e);return new Ud(b)};Q.render=
 function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmountComponentAtNode=function(a){if(!Vd(a))throw Error(m(40));return a._reactRootContainer?(yb(function(){Wd(null,null,a,!1,function(){a._reactRootContainer=null;a[Ja]=null})}),!0):!1};Q.unstable_batchedUpdates=Tf;Q.unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!Vd(c))throw Error(m(200));if(null==a||void 0===a._reactInternals)throw Error(m(38));return Wd(a,b,c,!1,d)};Q.version="18.3.1-next-f1338f8080-20240426"});
 })();
-</script></head><body><div id="root"></div><script>function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-const {
+</script></head><body><div id="root"></div><script>const {
   useState,
   useMemo,
   useEffect,
   useRef
 } = React;
-
 // ═══════════════════════════════════════════════════════════════
 //  THE DOSSIER : PUZZLE LAB
 //  13×10 · Fairness + Difficulty (ง่าย/ยาก) · grouped library
@@ -701,9 +695,10 @@ function genPuzzle(cells, playerCount, clueTier) {
     if (!evalClue(clue, answer, cells)) continue;
     const sup = supportOf(clue, cells);
     if (sup < 2 || sup >= total) continue;
-    byFaction[clue.faction].push(_objectSpread(_objectSpread({}, clue), {}, {
+    byFaction[clue.faction].push({
+      ...clue,
       support: sup
-    }));
+    });
   }
   const usable = FACTIONS.filter(f => byFaction[f].length > 0);
   if (usable.length < playerCount) return null;
@@ -740,7 +735,8 @@ function genPuzzle(cells, playerCount, clueTier) {
   const clueTierLabel = tiersUsed.length === 1 ? tiersUsed[0] : "mixed";
   return {
     answer,
-    clues: best.chosen.map((c, i) => _objectSpread(_objectSpread({}, c), {}, {
+    clues: best.chosen.map((c, i) => ({
+      ...c,
       contribution: best.contrib[i]
     })),
     fairness: best.fairness,
@@ -832,21 +828,21 @@ function HexBoard({
       opacity: 0.22,
       stroke: "none"
     }));
-  }), segs.map(s => /*#__PURE__*/React.createElement("line", _objectSpread(_objectSpread({
-    key: s.key
-  }, s), {}, {
+  }), segs.map(s => /*#__PURE__*/React.createElement("line", {
+    key: s.key,
+    ...s,
     stroke: "#3a2c1a",
     strokeWidth: 3,
     strokeLinecap: "round",
     opacity: 0.75
-  }))), segs.map(s => /*#__PURE__*/React.createElement("line", _objectSpread(_objectSpread({
-    key: s.key + "d"
-  }, s), {}, {
+  })), segs.map(s => /*#__PURE__*/React.createElement("line", {
+    key: s.key + "d",
+    ...s,
     stroke: "#c4b596",
     strokeWidth: 0.8,
     strokeDasharray: "2 4",
     strokeLinecap: "round"
-  }))), cells.map(cell => {
+  })), cells.map(cell => {
     const {
       x,
       y
@@ -990,6 +986,10 @@ function SteamGazetteLab() {
   const [library, setLibrary] = useState([]);
   const [failMsg, setFailMsg] = useState(null);
   const [filter, setFilter] = useState(null); // {players, tier}
+  const [importMsg, setImportMsg] = useState(null);
+  const [fileHandle, setFileHandle] = useState(null); // File System Access handle, if connected
+  const fileInputRef = useRef(null);
+  const canFSAccess = "showOpenFilePicker" in window;
   const [codexPopup, setCodexPopup] = useState(null);
   const [genId, setGenId] = useState(0);
   const stampKey = useRef(0);
@@ -1026,11 +1026,11 @@ function SteamGazetteLab() {
     if (!puzzle) return;
     setLibrary(l => [...l, serialize(cells, puzzle, players)]);
   }
-  function exportJSON() {
-    // ส่งออกเป็น flat array รูปแบบเดียวกับ maps.json ที่ host/companion อ่าน
+  function buildExportPresets() {
+    // flat array รูปแบบเดียวกับ maps.json ที่ host/companion อ่าน
     // เรียงตามจำนวนผู้เล่น (3→4→5) แล้วใส่ index 0..N + id = map_NN
     const ordered = [...library].sort((a, b) => a.players - b.players);
-    const presets = ordered.map((e, i) => ({
+    return ordered.map((e, i) => ({
       id: `map_${String(i).padStart(2, "0")}`,
       index: i,
       players: e.players,
@@ -1043,6 +1043,9 @@ function SteamGazetteLab() {
       answerCell: e.answerCell,
       clues: e.clues
     }));
+  }
+  function exportJSON() {
+    const presets = buildExportPresets();
     const blob = new Blob([JSON.stringify(presets, null, 2)], {
       type: "application/json"
     });
@@ -1054,6 +1057,105 @@ function SteamGazetteLab() {
   }
   function removeFromLib(id) {
     setLibrary(l => l.filter(e => e.id !== id));
+  }
+
+  // ── recall a previously exported maps.json into the library ──────────
+  function toLibraryEntry(preset, i) {
+    return {
+      id: preset.id || `import_${Date.now()}_${i}`,
+      players: preset.players,
+      factions: preset.factions || preset.clues.map(c => c.faction),
+      clueTier: preset.clueTier,
+      result: preset.result,
+      fairness: preset.fairness,
+      avgPct: preset.avgPct,
+      board: preset.board,
+      answerCell: preset.answerCell,
+      clues: preset.clues
+    };
+  }
+  function mergeIntoLibrary(presets, {
+    replace = false
+  } = {}) {
+    if (!Array.isArray(presets) || !presets.length) return 0;
+    const entries = presets.map(toLibraryEntry);
+    if (replace) {
+      setLibrary(entries);
+      return entries.length;
+    }
+    const seen = new Set(library.map(e => e.id));
+    const add = entries.filter(e => !seen.has(e.id));
+    if (add.length) setLibrary(l => [...l, ...add]);
+    return add.length;
+  }
+
+  // auto-recall: on first load, pull in whatever was last exported to
+  // assets/data/maps.json so the archive doesn't start empty every session.
+  useEffect(() => {
+    fetch("./assets/data/maps.json").then(r => r.ok ? r.json() : Promise.reject()).then(presets => {
+      const n = mergeIntoLibrary(presets, {
+        replace: true
+      });
+      if (n) setImportMsg(`โหลดฉบับเดิมจาก maps.json เข้าคลังแล้ว ${n} ฉบับ`);
+    }).catch(() => {}); // no existing file yet - start with an empty archive
+  }, []);
+
+  // manual import: works in every browser, merges by id (won't wipe new work)
+  function importFile(e) {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    file.text().then(txt => {
+      try {
+        const n = mergeIntoLibrary(JSON.parse(txt), {
+          replace: false
+        });
+        setImportMsg(n ? `นำเข้าเพิ่ม ${n} ฉบับ` : "ไฟล์นี้ไม่มีฉบับใหม่ (ซ้ำกับที่มีอยู่ทั้งหมด)");
+      } catch (err) {
+        setImportMsg("อ่านไฟล์ไม่ได้ ตรวจสอบว่าเป็น maps.json ที่ถูกต้อง");
+      }
+    });
+  }
+
+  // File System Access API (Chromium): connect once, then save writes straight
+  // back to that file - no repeated download + manual copy needed.
+  async function connectFile() {
+    try {
+      const [handle] = await window.showOpenFilePicker({
+        types: [{
+          description: "maps.json",
+          accept: {
+            "application/json": [".json"]
+          }
+        }]
+      });
+      const perm = await handle.requestPermission({
+        mode: "readwrite"
+      });
+      if (perm !== "granted") {
+        setImportMsg("ไม่ได้รับสิทธิ์เขียนไฟล์ ลองใหม่อีกครั้ง");
+        return;
+      }
+      const file = await handle.getFile();
+      mergeIntoLibrary(JSON.parse(await file.text()), {
+        replace: true
+      });
+      setFileHandle(handle);
+      setImportMsg(`เชื่อมไฟล์ "${handle.name}" แล้ว - ปุ่ม "บันทึกทับไฟล์" จะเขียนกลับไฟล์นี้โดยตรง`);
+    } catch (err) {
+      if (err && err.name !== "AbortError") setImportMsg("เชื่อมไฟล์ไม่สำเร็จ (ไฟล์อาจไม่ใช่ maps.json ที่ถูกต้อง)");
+    }
+  }
+  async function saveToFile() {
+    if (!fileHandle) return;
+    try {
+      const writable = await fileHandle.createWritable();
+      await writable.write(JSON.stringify(buildExportPresets(), null, 2));
+      await writable.close();
+      setImportMsg(`บันทึกทับ "${fileHandle.name}" แล้ว (${library.length} ฉบับ)`);
+    } catch (err) {
+      setImportMsg("บันทึกไฟล์ไม่สำเร็จ ลองส่งออกเป็นไฟล์ดาวน์โหลดแทน");
+    }
   }
   const fairnessPct = puzzle ? Math.round(puzzle.fairness * 100) : 0;
   const fairColor = !puzzle ? "#8a7a62" : fairnessPct >= 80 ? "#4a7c3a" : fairnessPct >= 60 ? "#9a7a2a" : "#9a2a1e";
@@ -1119,7 +1221,7 @@ function SteamGazetteLab() {
   }, /*#__PURE__*/React.createElement(HexBoard, {
     key: genId,
     cells: cells,
-    answer: puzzle === null || puzzle === void 0 ? void 0 : puzzle.answer,
+    answer: puzzle?.answer,
     hoverClue: hoverClue,
     showAnswer: showAns
   })), /*#__PURE__*/React.createElement("div", {
@@ -1279,6 +1381,27 @@ function SteamGazetteLab() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "col-head"
   }, "แฟ้มจดหมายเหตุ (", library.length, ")"), /*#__PURE__*/React.createElement("div", {
+    className: "archive-tools"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-ghost mini",
+    onClick: () => fileInputRef.current && fileInputRef.current.click()
+  }, "📂 นำเข้า maps.json"), canFSAccess && (fileHandle ? /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-ghost mini",
+    onClick: saveToFile
+  }, "💾 บันทึกทับไฟล์") : /*#__PURE__*/React.createElement("button", {
+    className: "btn btn-ghost mini",
+    onClick: connectFile
+  }, "🔗 เชื่อมไฟล์ maps.json")), /*#__PURE__*/React.createElement("input", {
+    ref: fileInputRef,
+    type: "file",
+    accept: "application/json,.json",
+    style: {
+      display: "none"
+    },
+    onChange: importFile
+  })), importMsg && /*#__PURE__*/React.createElement("div", {
+    className: "export-hint"
+  }, importMsg), /*#__PURE__*/React.createElement("div", {
     className: "matrix"
   }, /*#__PURE__*/React.createElement("div", {
     className: "matrix-row matrix-header"

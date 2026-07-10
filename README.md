@@ -90,19 +90,29 @@ then open `http://localhost:.../index.html`.
 
 ## Generating your own maps (Lab)
 
-1. Open `lab.html`, generate puzzles, and click **"Save to library"** for each
-   one you like (aim for a mix of player counts: 3/4/5).
-2. Click **"⬇ Export maps.json"**. This downloads a file in the exact flat
-   array format both Host and Companion expect (each entry has `id`, `index`,
-   `players`, `factions`, `board`, `answerCell`, and `clues[]` with a
-   `tplKey` + `params` pair that the game re-renders live in the player's
-   chosen language - not a baked string).
-3. Replace `assets/data/maps.json` with the exported file and redeploy.
+1. Open `lab.html`. On load it automatically **recalls** whatever is currently
+   at `assets/data/maps.json` into the archive on the right, so you pick up
+   where you left off instead of starting from an empty library each session.
+2. Generate puzzles and click **"Save to library"** for each one you like (aim
+   for a mix of player counts: 3/4/5).
+3. Get your work back into `assets/data/maps.json` one of two ways:
+   - **⬇ Export maps.json** - downloads a file in the exact flat array format
+     both Host and Companion expect (each entry has `id`, `index`, `players`,
+     `factions`, `board`, `answerCell`, and `clues[]` with a `tplKey` +
+     `params` pair the game re-renders live in the player's chosen language -
+     not a baked string). Move the download to `assets/data/maps.json`.
+   - **🔗 Connect maps.json** (Chromium-based browsers only) - pick
+     `assets/data/maps.json` once via the file picker; the **💾 Save to file**
+     button that appears afterward writes straight back to that file, no
+     download + manual move needed.
+4. You can also **📂 Import maps.json** at any time to merge in an older
+   export (works in every browser); it's deduped by preset `id`, so
+   re-importing the same file is a no-op.
 
-The 16 presets shipped in this repo were generated the same way (10× 3-player,
-5× 4-player, 1× 5-player) and already respect the rule that the Demon King is
-never on a tile with a structure (Clock Tower / Station / Power Plant) - see
-`docs/HANDOFF.md` for the full ruleset if you want to hand-edit presets.
+Every map preset must respect the rule that the Demon King is never on a tile
+with a structure (Clock Tower / Station / Power Plant) - the generator already
+enforces this - see `docs/HANDOFF.md` for the full ruleset if you want to
+hand-edit presets.
 
 ## Editing wording
 
@@ -117,14 +127,16 @@ too and re-run the rebuild step below so the Lab preview stays in sync.
 ## Rebuilding the Lab
 
 `lab.html` is a compiled, self-contained bundle (React + the Lab component)
-built from `src/puzzle-lab.jsx`. If you edit the `.jsx` source, rebuild with:
+built from `src/puzzle-lab.jsx` - never hand-edit `lab.html` directly. If you
+edit the `.jsx` source, rebuild with:
 ```bash
-npm install react@18 react-dom@18 @babel/core @babel/preset-env @babel/preset-react --save-dev
-# then transform src/puzzle-lab.jsx with Babel (classic runtime) and inline it
-# together with the React/ReactDOM UMD builds into a single lab.html file.
+npm install
+npm run build:lab
 ```
-See `docs/HANDOFF.md` for the exact pipeline (`transform.js` script) used to
-produce the shipped `lab.html`.
+`build-lab.mjs` reuses the React 18 / ReactDOM 18 UMD blocks already embedded
+in the current `lab.html` verbatim and only recompiles the component script
+via Babel (JSX only - the source targets evergreen browsers, same as the rest
+of the repo, so no additional syntax transforms are applied).
 
 ## Notes
 

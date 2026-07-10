@@ -5,12 +5,15 @@
   "description": "The Dossier - a static, bilingual hex-grid deduction board game. No build step to deploy; these scripts only run dev checks.",
   "type": "module",
   "scripts": {
+    "build:lab": "node build-lab.mjs",
     "check": "node test/check.mjs",
     "smoke": "node test/smoke.mjs",
     "test": "node test/check.mjs && node test/smoke.mjs",
     "serve": "npx serve ."
   },
   "devDependencies": {
+    "@babel/core": "^8.0.1",
+    "@babel/preset-react": "^8.0.1",
     "jsdom": "^24.0.0"
   }
 }
