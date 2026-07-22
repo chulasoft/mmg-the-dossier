@@ -12,12 +12,12 @@
   --paper:#e9e1cd; --paper2:#e2d8bf; --ink:#241c12; --ink2:#5a4c38; --ink3:#8a7a62;
   --rule:#c4b596; --red:#9a2a1e; --sepia:#8a6a3a;
   --p0:#9a2a1e; --p1:#8a6a28; --p2:#3a5a72; --p3:#6a4a7a; --p4:#3a6a3a;
-  /* shared motion system (see docs/UI-UX-REVIEW.md 1.1/1.2) */
+  /* shared motion system (see docs/STYLE_GUIDE.md) */
   --ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
   --ease-spring: cubic-bezier(0.2, 0.9, 0.3, 1.25);
   --ease-stamp: cubic-bezier(0.3, 1.4, 0.5, 1);
   --t-fast: 140ms; --t-base: 220ms; --t-slow: 550ms;
-  /* spacing scale, 8px base (see docs/UI-UX-REVIEW.md 3.1) */
+  /* spacing scale, 8px base (see docs/STYLE_GUIDE.md) */
   --sp-half:4px; --sp-xs:6px; --sp-1:8px; --sp-2:16px; --sp-3:24px; --sp-4:40px; --sp-5:64px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -184,7 +184,7 @@ body{
 @keyframes waxFade{0%{opacity:0;}20%{opacity:1;}80%{opacity:1;}100%{opacity:0;}}
 
 @keyframes pickPulse{0%,100%{box-shadow:inset 0 0 0 3px rgba(180,140,60,0.15);}50%{box-shadow:inset 0 0 0 4px rgba(200,150,70,0.5);}}
-/* pickable base tiles gently warm-pulse so the eye reads them as live (UI-UX 2.1) */
+/* pickable base tiles gently warm-pulse so the eye reads them as live (see docs/STYLE_GUIDE.md) */
 .cellpick:not(.cell-hover){animation:tilePickBreath 1.6s ease-in-out infinite;}
 @keyframes tilePickBreath{0%,100%{stroke:#5a4632;stroke-width:0.7;}50%{stroke:#c8964a;stroke-width:1.4;}}
 .pick-ribbon{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:6;
