@@ -24,4 +24,5 @@ Thai. The choice is remembered per device.
 
 - Everything runs client-side in the browser - refreshing the Host page ends
   the current game session.
-- For setup, deployment, and development details, see `docs/HANDOFF.md`.
+- Working on the code? Start at `docs/PROMPT.md` - it indexes the rest of the
+  docs (architecture, rules, data model, style guide, and backlog).
