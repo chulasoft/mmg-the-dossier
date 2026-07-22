@@ -24,5 +24,6 @@ Thai. The choice is remembered per device.
 
 - Everything runs client-side in the browser - refreshing the Host page ends
   the current game session.
-- Working on the code? Start at `docs/PROMPT.md` - it indexes the rest of the
-  docs (architecture, rules, data model, style guide, and backlog).
+- Working on the code (human or AI)? Read `CONTEXT.md` first - it's the core
+  context and indexes the rest of the docs (architecture, rules, data model,
+  style guide, and backlog).
